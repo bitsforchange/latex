@@ -1,10 +1,77 @@
-% 17/05/2013
-% Para fazer
-% 1. providenciar a hifenacao para palavras com cedilha e acentos (UTF8)
-% 2. consertar o problema de sublinar subsecoes com \uline
+% Copyright 2019 ---- to do
 
-\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{repUERJ}[2013/06/01 v7.0]
+
+% ------------------------------ INITIAL SET UP
+
+% This is a LaTeX2e document class.
+\NeedsTeXFormat{LaTeX2e}
+
+\ProvidesClass{ABNT-NBR-14724}[2019/11/14 v0.1  Standard LaTeX class for ABNT NBR 14724]
+
+
+% The configuration file, used for passing options.
+%     Must load figures and specifications for each variation of the standard.
+\InputIfFileExists{????}{%
+   \ClassInfo{ABNT-NBR-14724}{Using local configuration file}%
+}{%
+   \ClassInfo{ABNT-NBR-14724}{No local configuration file}%
+}
+
+
+% Fonts.
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\DeclareRobustCommand*\cal{\@fontswitch\relax\mathcal}
+\DeclareRobustCommand*\mit{\@fontswitch\relax\mathnormal}
+
+
+% Switch off some of the book options.
+%     Still need be evaluated
+% \DeclareOption{a4paper}{\OptionNotUsed}
+\DeclareOption{a5paper}{\OptionNotUsed}
+\DeclareOption{b5paper}{\OptionNotUsed}
+\DeclareOption{letterpaper}{\OptionNotUsed}
+\DeclareOption{legalpaper}{\OptionNotUsed}
+\DeclareOption{executivepaper}{\OptionNotUsed}
+% \DeclareOption{landscape}{\OptionNotUsed}
+\DeclareOption{twoside}{\OptionNotUsed}
+% \DeclareOption{titlepage}{\OptionNotUsed}
+% \DeclareOption{onecolumn}{\OptionNotUsed}
+
+
+% The default action for any option is to pass it to the book class.
+%     What should I do to change other packages options?
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+ 
+% Execute the options.
+\ProcessOptions
+ 
+% Load the book class.
+\LoadClass[a4paper,12pt,oneside,onecolumn,final,openany]{book}
+
+
+% ------------------------------ REQUIRED PACKAGES
+
+% The package url.sty takes care of breaking url's that are too long
+% to fit in a two-column design
+% but it might not be available on all installations.
+% Therefore we need to check if the file url.sty can be found.
+%
+% Also, it uses a verbatim input mode so Chris does not use it for
+% urls as he wants to control layout and use macros within it.  Also
+% he usuually wants to hand-craft the line-breaks in such text. 
+% 
+\IfFileExists{url.sty}{%
+  \RequirePackage{url}
+  \newcommand\email{\begingroup \Url}}{%
+  \newcommand*{\url}[1]{\texttt{##1}}
+  \newcommand*{\email}[1]{\texttt{##1}}
+  }
 
 \RequirePackage{ifthen}
 \RequirePackage[normalem]{ulem}
@@ -14,7 +81,41 @@
 \RequirePackage{pdfpages}
 \RequirePackage{setspace}
 
-\providecommand{\packagename}{repUERJ v9.0}
+\usepackage[brazil]{babel}  % adequação para o português Brasil
+\usepackage[utf8]{inputenc} % Determina a codificação utilizada
+                            % (conversão automática dos acentos)
+\usepackage{makeidx}        % Cria o índice
+\usepackage{hyperref}       % Controla a formação do índice
+\usepackage{indentfirst}    % Indenta o primeiro paragrafo de
+                            % cada seção.
+\usepackage{graphicx}       % Inclusão de gráficos
+\usepackage{subfig}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb}  % pacotes matemáticos
+\usepackage[alf]{abntex2cite} % pacote para citacoes
+\usepackage[font=default,frame=no]{repUERJformat} % pacote para as 
+                                                  % normas da UERJ
+% ---
+% pacote auxiliar para elaboração de pseudocódigos
+% este pacote pode ser retirado caso nao se planeje
+% elaborar pseudocódigos
+% ---
+\usepackage[dots=yes]{repUERJpseudocode}
+
+\usepackage[maxfloats=25]{morefloats}
+\usepackage{array}
+\setlength\extrarowheight{2pt}
+
+% table configuration?
+\setlength\arraycolsep{5\p@}
+\setlength\tabcolsep{6\p@}
+\setlength\arrayrulewidth{.4\p@}
+\setlength\doublerulesep{2\p@}
+\setlength\tabbingsep{\labelsep}
+\setlength\fboxsep{3\p@}
+\setlength\fboxrule{.4\p@}
+
+% ------------------------------ PAGE STYLE
 
 % refaz o comando do setspace
 \renewcommand{\singlespacing}{\setstretch {\setspace@singlespace}}
@@ -48,6 +149,10 @@
      \setlength\paperheight {\paperwidth}%
      \setlength\paperwidth  {\@tempdima}}
 \fi
+
+
+% ------------------------------ TEXT SIZE
+
 \if@compatibility
   \renewcommand\@ptsize{0}
 \else
@@ -87,8 +192,7 @@
       }%
     \renewcommand\newblock{\par}}%
 }
-%\ExecuteOptions{a4paper,12pt,oneside,onecolumn,final,openany}
-\ProcessOptions
+
 \input{size1\@ptsize.clo}
 \setlength\lineskip{1\p@}
 \setlength\normallineskip{1\p@}
@@ -150,6 +254,25 @@
   \let\@mkboth\@gobbletwo
   \let\chaptermark\@gobble
   \let\sectionmark\@gobble}
+
+% --- 
+% Espacamentos entre linhas e paragrafos 
+% --- 
+% O tamanho do paragrafo eh dado por:
+\setlength{\parindent}{1.25cm}
+% --- 
+% Controle do espacamento entre um paragrafo e outro:
+\setlength{\parskip}{0cm}
+% --- 
+% Controle do espacamento entre paragrafos dentro de um item:
+\setlength{\parsep}{0cm}
+% --- 
+% Controle do espacamento entre um item e outro:
+\setlength{\itemsep}{0cm}
+% --- 
+
+
+% ------------------------------ \maketitle PARAMETERS
 
 \if@titlepage
   \newcommand\maketitle{
@@ -239,6 +362,30 @@
     \vskip 1.5em}
 \fi
 
+\def\today{\ifcase\month\or
+  January\or February\or March\or April\or May\or June\or
+  July\or August\or September\or October\or November\or December\fi
+  \space\number\day, \number\year}
+\setlength\columnsep{10\p@}
+\setlength\columnseprule{0\p@}
+\pagestyle{plain}
+\pagenumbering{arabic}
+\if@twoside
+\else
+  \raggedbottom
+\fi
+\if@twocolumn
+  \twocolumn
+  \sloppy
+  \flushbottom
+\else
+  \onecolumn
+\fi
+\endinput
+
+
+% ------------------------------ SECTIONING COMMANDS
+
 \newcommand*\chaptermark[1]{}
 
 \setcounter{secnumdepth}{3}
@@ -250,13 +397,90 @@
 \newcounter {subsubsection}[subsection]
 \newcounter {paragraph}[subsubsection]
 \newcounter {subparagraph}[paragraph]
-\renewcommand \thepart {\@Roman\c@part}
-\renewcommand \thechapter {\@arabic\c@chapter}
-\renewcommand \thesection {\thechapter.\@arabic\c@section}
-\renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
-\renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}
-\renewcommand\theparagraph    {\thesubsubsection.\@arabic\c@paragraph}
+\renewcommand\thepart {\@Roman\c@part}
+\renewcommand\thechapter {\@arabic\c@chapter}
+\renewcommand\thesection {\thechapter.\@arabic\c@section}
+\renewcommand\thesubsection {\thesection.\@arabic\c@subsection}
+\renewcommand\thesubsubsection {\thesubsection.\@arabic\c@subsubsection}
+\renewcommand\theparagraph {\thesubsubsection.\@arabic\c@paragraph}
 \renewcommand\thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
+
+% \underline{} % para testar
+% \MakeUpperCase{} % para testar
+
+\newcommand\section{\@startsection{section}{1}{\z@}% #1 #2 #3
+                                   {-2\baselineskip}% #4
+                                   {\baselineskip}% #5
+                                   {\protect\normalfont\protect\normalsize\bfseries}}%#6
+\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-2\baselineskip}%
+                                     {\baselineskip}%
+                                     {\protect\normalfont\protect\normalsize
+                                      \noexpand\uline}}
+\newcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+                                     {-2\baselineskip}%
+                                     {\baselineskip}%
+                                     {\protect\normalfont\protect\normalsize}}
+\newcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+                                     {-2\baselineskip}%
+                                     {\baselineskip}%
+                                     {\protect\normalfont\protect\normalsize}}
+\newcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+                                     {-2\baselineskip}%
+                                     {\baselineskip}%
+                                     {\protect\normalfont\protect\normalsize}}
+
+\newlength{\seclength}
+\renewcommand{\@seccntformat}[1]{%\fbox
+  {\csname the#1\endcsname}\space
+}
+
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth
+    \let\@svsec\@empty
+  \else
+    \refstepcounter{#1}%
+    \protected@edef\@svsec{\@seccntformat{#1}\relax}%
+  \fi
+  \@tempskipa #5\relax
+  \ifdim \@tempskipa>\z@
+    \phantomsection
+    \begingroup\relax
+      \@hangfrom{\hskip #3\relax\@svsec}
+      \interlinepenalty\@M
+      \settowidth{\seclength}{\@seccntformat{#1}}
+      \ifnum #2=2 %\fbox
+        {\parbox[t]{\textwidth-\seclength-1em}
+          {\raggedright#6\uline{#8}}} % solucao temporaria para \uline(?!?!)
+      \else %\fbox
+        {\parbox[t]{\textwidth-\seclength-1em}
+          {\raggedright#6{#8}}}
+      \fi
+    \endgroup
+    \ifthenelse{\boolean{appendixannex}}{}{
+      \addcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth
+        \else \protect\numberline{\csname the#1\endcsname}\fi#6{#7}}%
+    }
+  \else
+    \def\@svsechd{%
+      #6{\hskip #3\relax
+          \@svsec {#8}
+        }%
+      \ifthenelse{\boolean{appendixannex}}{}{
+        \addcontentsline{toc}{#1}{%
+          \ifnum #2>\c@secnumdepth \else
+            \protect\numberline{\csname the#1\endcsname}%
+          \fi
+          #7}
+      }
+    }%
+  \fi
+  \@xsect{#5}}
+
+
+
+% ------------------------------ CUSTOM COMMANDS (não sei pra quê)
 
 \newcommand{\frontmatter}{\pagestyle{empty}\onehalfspacing}
 \newcommand{\mainmatter}{\pagestyle{UERJ}\onehalfspacing}
@@ -323,6 +547,9 @@
 \setlength\aboveptchapterskip{-2.1\baselineskip}
 \setlength\belowptchapterskip{2.5\baselineskip}
 
+
+% ------------------------------ PRE-TEXTUAL CHAPTER
+
 \newcommand\pretextualchapter{
   \if@openright\cleardoublepage\else\clearpage\fi
   \thispagestyle{empty}%
@@ -351,6 +578,9 @@
 \newlength\belowchapterskip
 \setlength{\abovechapterskip}{-1.2\baselineskip}
 \setlength{\belowchapterskip}{2.5\baselineskip}
+
+
+% ------------------------------ CHAPTER
 
 \newcommand\chapter{
   \if@openright\cleardoublepage\else\clearpage\fi
@@ -418,6 +648,9 @@
     \vskip \belowchapterskip                        % espaco apos o titulo
   }}
 
+
+% ------------------------------ PÓS-TEXTUAL CHAPTER
+
 \newcommand\postextualchapter{
   \if@openright\cleardoublepage\else\clearpage\fi
   \thispagestyle{UERJ}%
@@ -481,82 +714,11 @@
     \vskip \belowptchapterskip              % espaco apos o titulo
   }}
 
-
 \newboolean{appendixannex}
 \setboolean{appendixannex}{false}
 
 
-\newcommand\section{\@startsection {section}{1}{\z@}% #1 #2 #3
-                                   {-2\baselineskip}% #4
-                                   {\baselineskip}% #5
-                                   {\protect\normalfont\protect\normalsize\bfseries}}%#6
-\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
-                                     {-2\baselineskip}%
-                                     {\baselineskip}%
-                                     {\protect\normalfont\protect\normalsize
-                                      \noexpand\uline}}
-\newcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
-                                     {-2\baselineskip}%
-                                     {\baselineskip}%
-                                     {\protect\normalfont\protect\normalsize}}
-
-\newcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-                                     {-2\baselineskip}%
-                                     {\baselineskip}%
-                                     {\protect\normalfont\protect\normalsize}}
-\newcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
-                                     {-2\baselineskip}%
-                                     {\baselineskip}%
-                                     {\protect\normalfont\protect\normalsize}}
-
-\newlength{\seclength}
-\renewcommand{\@seccntformat}[1]{%\fbox
-  {\csname the#1\endcsname}\space
-}
-
-\def\@sect#1#2#3#4#5#6[#7]#8{%
-  \ifnum #2>\c@secnumdepth
-    \let\@svsec\@empty
-  \else
-    \refstepcounter{#1}%
-    \protected@edef\@svsec{\@seccntformat{#1}\relax}%
-  \fi
-  \@tempskipa #5\relax
-  \ifdim \@tempskipa>\z@
-    \phantomsection
-    \begingroup\relax
-      \@hangfrom{\hskip #3\relax\@svsec}
-      \interlinepenalty\@M
-      \settowidth{\seclength}{\@seccntformat{#1}}
-      \ifnum #2=2 %\fbox
-        {\parbox[t]{\textwidth-\seclength-1em}
-          {\raggedright#6\uline{#8}}} % solucao temporaria para \uline(?!?!)
-      \else %\fbox
-        {\parbox[t]{\textwidth-\seclength-1em}
-          {\raggedright#6{#8}}}
-      \fi
-    \endgroup
-    \ifthenelse{\boolean{appendixannex}}{}{
-      \addcontentsline{toc}{#1}{%
-        \ifnum #2>\c@secnumdepth
-        \else \protect\numberline{\csname the#1\endcsname}\fi#6{#7}}%
-    }
-  \else
-    \def\@svsechd{%
-      #6{\hskip #3\relax
-          \@svsec {#8}
-        }%
-      \ifthenelse{\boolean{appendixannex}}{}{
-        \addcontentsline{toc}{#1}{%
-          \ifnum #2>\c@secnumdepth \else
-            \protect\numberline{\csname the#1\endcsname}%
-          \fi
-          #7}
-      }
-    }%
-  \fi
-  \@xsect{#5}}
-
+% ------------------------------ PÓS-TEXTUAL CHAPTER
 
 \newcommand\appendix{
   \setcounter{chapter}{0}%
@@ -609,6 +771,9 @@
 \newcommand\labelitemii{\normalfont\bfseries \textendash}
 \newcommand\labelitemiii{\textasteriskcentered}
 \newcommand\labelitemiv{\textperiodcentered}
+
+
+% ------------------------------ ENVIRONMENTS
 
 \newenvironment{description}
                {\list{}{\labelwidth\z@ \itemindent-\leftmargin
@@ -696,24 +861,6 @@
       }
 \fi
 
-\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
-\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
-\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
-\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
-\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
-\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
-\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
-\DeclareRobustCommand*\cal{\@fontswitch\relax\mathcal}
-\DeclareRobustCommand*\mit{\@fontswitch\relax\mathnormal}
-
-\setlength\arraycolsep{5\p@}
-\setlength\tabcolsep{6\p@}
-\setlength\arrayrulewidth{.4\p@}
-\setlength\doublerulesep{2\p@}
-\setlength\tabbingsep{\labelsep}
-\setlength\fboxsep{3\p@}
-\setlength\fboxrule{.4\p@}
-
 \renewcommand\theequation {\@arabic\c@equation}
 
 %--------------------------------------------------------
@@ -796,7 +943,7 @@
   {\@dblfloat{graph}}
   {\end@dblfloat}
 
-%--------------------------------------------------------
+% ------------------------------ CAPTION CONFIGURATIONS
 
 \DeclareCaptionLabelSeparator{dash}{ - }
 
@@ -835,7 +982,8 @@
                         farskip=5pt,  % espaco abaixo do subcaption
                         captionskip=5pt}
 
-%--------------------------------------------------------------
+
+% ------------------------------ LEGEND CONFIGURATIONS
 
 \DeclareCaptionLabelFormat{legendfmt}{\legendname}
 \DeclareCaptionStyle{legend}{
@@ -857,7 +1005,8 @@
   \addtocounter\@captype\m@ne\caption{#1}
 }
 
-%--------------------------------------------------------------
+
+% ------------------------------ SOURCE CONFIGURATIONS
 
 \DeclareCaptionLabelFormat{sourcefmt}{\sourcename}
 \DeclareCaptionStyle{source}{
@@ -878,6 +1027,9 @@
   % traz o contador que esta sendo usado
   \addtocounter\@captype\m@ne\caption{#1}
 }
+
+
+% ------------------------------ TOCs
 
 \newcommand\@pnumwidth{1.55em}
 \newcommand\@tocrmarg{2.55em}
@@ -973,7 +1125,8 @@
     \if@restonecol\twocolumn\fi
     }
 
-%----------------------------------------------------------
+
+% ------------------------------ BIBLIOGRAPHY
 
 \newdimen\bibindent
 \setlength\bibindent{1.5em}
@@ -1001,6 +1154,9 @@
 
 \newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
 \let\@openbib@code\@empty
+
+
+% ------------------------------ INDEX
 
 \newenvironment{theindex}{
   \if@twocolumn
@@ -1044,27 +1200,8 @@
     \noindent
     \makebox[0.8em][r]{\@makefnmark}\hspace{0.3em}\parbox[t]{\hsize-1.1em}{#1}}
 
-% ------------------------------------------------------------------------
-% ------------------------------------------------------------------------
 
-% --- 
-% Espacamentos entre linhas e paragrafos 
-% --- 
-% O tamanho do paragrafo eh dado por:
-\setlength{\parindent}{1.25cm}
-% --- 
-% Controle do espacamento entre um paragrafo e outro:
-\setlength{\parskip}{0cm}
-% --- 
-% Controle do espacamento entre paragrafos dentro de um item:
-\setlength{\parsep}{0cm}
-% --- 
-% Controle do espacamento entre um item e outro:
-\setlength{\itemsep}{0cm}
-% --- 
-
-% ------------------------------------------------------------------------
-% ------------------------------------------------------------------------
+% ------------------------------ LANGUAGE SETUP
 
 \newcommand\bibname{Bibliography}
 \newcommand\indexname{Index}
@@ -1087,26 +1224,3 @@
 \newcommand\appendixname{Appendix}
 \newcommand\annexname{Annex}
 \newcommand\abstractname{Abstract}
-
-\def\today{\ifcase\month\or
-  January\or February\or March\or April\or May\or June\or
-  July\or August\or September\or October\or November\or December\fi
-  \space\number\day, \number\year}
-\setlength\columnsep{10\p@}
-\setlength\columnseprule{0\p@}
-\pagestyle{plain}
-\pagenumbering{arabic}
-\if@twoside
-\else
-  \raggedbottom
-\fi
-\if@twocolumn
-  \twocolumn
-  \sloppy
-  \flushbottom
-\else
-  \onecolumn
-\fi
-\endinput
-%%
-%% End of file.
