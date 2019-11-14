@@ -1,14 +1,14 @@
 ---
 name: Erro encontrado
 about: Por favor, descreva qual foi o tipo de problema.
-title: ''
+title: "[erro] O que aconteceu e aonde"
 labels: bug
 assignees: ''
 
 ---
 
 **Descrição**
-Uma descrição clara e concisa do que é o erro.
+Uma descrição clara e concisa do que é o erro e em qual documento aconteceu.
 
 **Como aconteceu**
 Etapas para reproduzir o comportamento:
