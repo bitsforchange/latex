@@ -11,11 +11,11 @@
 
 % The configuration file, used for passing options.
 %     Must load figures and specifications for each variation of the standard.
-\InputIfFileExists{????}{%
-   \ClassInfo{ABNT-NBR-14724}{Using local configuration file}%
-}{%
-   \ClassInfo{ABNT-NBR-14724}{No local configuration file}%
-}
+% \InputIfFileExists{????}{%
+%   \ClassInfo{ABNT-NBR-14724}{Using local configuration file}%
+% }{%
+%   \ClassInfo{ABNT-NBR-14724}{No local configuration file}%
+% }
 
 
 % Fonts.
@@ -40,9 +40,8 @@
 \DeclareOption{executivepaper}{\OptionNotUsed}
 % \DeclareOption{landscape}{\OptionNotUsed}
 \DeclareOption{twoside}{\OptionNotUsed}
-% \DeclareOption{titlepage}{\OptionNotUsed}
+\DeclareOption{titlepage}{\OptionNotUsed}
 % \DeclareOption{onecolumn}{\OptionNotUsed}
-
 
 % The default action for any option is to pass it to the book class.
 %     What should I do to change other packages options?
@@ -81,29 +80,28 @@
 \RequirePackage{pdfpages}
 \RequirePackage{setspace}
 
-\usepackage[brazil]{babel}  % adequação para o português Brasil
-\usepackage[utf8]{inputenc} % Determina a codificação utilizada
+\RequirePackage[brazil]{babel}  % adequação para o português Brasil
+\RequirePackage[utf8]{inputenc} % Determina a codificação utilizada
                             % (conversão automática dos acentos)
-\usepackage{makeidx}        % Cria o índice
-\usepackage{hyperref}       % Controla a formação do índice
-\usepackage{indentfirst}    % Indenta o primeiro paragrafo de
+\RequirePackage{makeidx}        % Cria o índice
+\RequirePackage{hyperref}       % Controla a formação do índice
+\RequirePackage{indentfirst}    % Indenta o primeiro paragrafo de
                             % cada seção.
-\usepackage{graphicx}       % Inclusão de gráficos
-\usepackage{subfig}
-\usepackage{multirow}
-\usepackage{amsmath,amssymb}  % pacotes matemáticos
-\usepackage[alf]{abntex2cite} % pacote para citacoes
-\usepackage[font=default,frame=no]{repUERJformat} % pacote para as 
-                                                  % normas da UERJ
+\RequirePackage{graphicx}       % Inclusão de gráficos
+\RequirePackage{subfig}
+\RequirePackage{multirow}
+\RequirePackage{amsmath,amssymb}  % pacotes matemáticos
+\RequirePackage[alf]{abntex2cite} % pacote para citacoes
+% \RequirePackage[font=default,frame=no]{repUERJformat} % pacote para as normas da UERJ
 % ---
 % pacote auxiliar para elaboração de pseudocódigos
 % este pacote pode ser retirado caso nao se planeje
 % elaborar pseudocódigos
 % ---
-\usepackage[dots=yes]{repUERJpseudocode}
+% \RequirePackage[dots=yes]{repUERJpseudocode}
 
-\usepackage[maxfloats=25]{morefloats}
-\usepackage{array}
+\RequirePackage[maxfloats=25]{morefloats}
+\RequirePackage{array}
 \setlength\extrarowheight{2pt}
 
 % table configuration?
@@ -120,127 +118,63 @@
 % refaz o comando do setspace
 \renewcommand{\singlespacing}{\setstretch {\setspace@singlespace}}
 
-\newcommand\@ptsize{}
+% \newcommand\@ptsize{}
 \newif\if@restonecol
 \newif\if@titlepage
 \@titlepagetrue
 \newif\if@openright
-\if@compatibility\else
-  \DeclareOption{a4paper}
-    {\setlength\paperheight {297mm}%
-     \setlength\paperwidth  {210mm}}
-  \DeclareOption{a5paper}
-    {\setlength\paperheight {210mm}%
-     \setlength\paperwidth  {148mm}}
-  \DeclareOption{b5paper}
-    {\setlength\paperheight {250mm}%
-     \setlength\paperwidth  {176mm}}
-  \DeclareOption{letterpaper}
-    {\setlength\paperheight {11in}%
-     \setlength\paperwidth  {8.5in}}
-  \DeclareOption{legalpaper}
-    {\setlength\paperheight {14in}%
-     \setlength\paperwidth  {8.5in}}
-  \DeclareOption{executivepaper}
-    {\setlength\paperheight {10.5in}%
-     \setlength\paperwidth  {7.25in}}
-  \DeclareOption{landscape}
-    {\setlength\@tempdima   {\paperheight}%
-     \setlength\paperheight {\paperwidth}%
-     \setlength\paperwidth  {\@tempdima}}
-\fi
 
 
 % ------------------------------ TEXT SIZE
 
-\if@compatibility
-  \renewcommand\@ptsize{0}
-\else
-  \DeclareOption{10pt}{\renewcommand\@ptsize{0}}
-\fi
-\DeclareOption{11pt}{\renewcommand\@ptsize{1}}
-\DeclareOption{12pt}{\renewcommand\@ptsize{2}}
-\if@compatibility\else
-  \DeclareOption{oneside}{\@twosidefalse \@mparswitchfalse}
-\fi
-\DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
-\DeclareOption{draft}{\setlength\overfullrule{5pt}}
-\if@compatibility\else
-  \DeclareOption{final}{\setlength\overfullrule{0pt}}
-\fi
-\DeclareOption{titlepage}{\@titlepagetrue}
-\if@compatibility\else
-  \DeclareOption{notitlepage}{\@titlepagefalse}
-\fi
-\if@compatibility\else
-  \DeclareOption{openright}{\@openrighttrue}
-  \DeclareOption{openany}{\@openrightfalse}
-\fi
-\if@compatibility\else
-  \DeclareOption{onecolumn}{\@twocolumnfalse}
-\fi
-\DeclareOption{twocolumn}{\@twocolumntrue}
-\DeclareOption{leqno}{\input{leqno.clo}}
-\DeclareOption{fleqn}{\input{fleqn.clo}}
-\DeclareOption{openbib}{%
-  \AtEndOfPackage{%
-    \renewcommand\@openbib@code{%
-      \advance\leftmargin\bibindent
-      \itemindent -\bibindent
-      \listparindent \itemindent
-      \parsep \z@
-      }%
-    \renewcommand\newblock{\par}}%
-}
-
-\input{size1\@ptsize.clo}
-\setlength\lineskip{1\p@}
-\setlength\normallineskip{1\p@}
-\renewcommand\baselinestretch{}
-\setlength\parskip{0\p@ \@plus \p@}
-\@lowpenalty   51
-\@medpenalty  151
-\@highpenalty 301
-\setcounter{topnumber}{2}
-\renewcommand\topfraction{.7}
-\setcounter{bottomnumber}{1}
-\renewcommand\bottomfraction{.3}
-\setcounter{totalnumber}{3}
-\renewcommand\textfraction{.2}
-\renewcommand\floatpagefraction{.5}
-\setcounter{dbltopnumber}{2}
-\renewcommand\dbltopfraction{.7}
-\renewcommand\dblfloatpagefraction{.5}
-\if@twoside
-  \def\ps@headings{%
-    \let\@oddfoot\@empty\let\@evenfoot\@empty
-    \def\@evenhead{\thepage\hfil\slshape\leftmark}%
-    \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
-    \let\@mkboth\markboth
-    \def\chaptermark##1{%
-      \markboth {\MakeUppercase{%
-        \ifnum \c@secnumdepth >\m@ne
-            \@chapapp\ \thechapter. \ %
-        \fi
-        ##1}}{}}%
-    \def\sectionmark##1{%
-      \markright {\MakeUppercase{%
-        \ifnum \c@secnumdepth >\z@
-          \thesection. \ %
-        \fi
-        ##1}}}}
-\else
-  \def\ps@headings{%
-    \let\@oddfoot\@empty
-    \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
-    \let\@mkboth\markboth
-    \def\chaptermark##1{%
-      \markright {\MakeUppercase{%
-        \ifnum \c@secnumdepth >\m@ne
-            \@chapapp\ \thechapter. \ %
-        \fi
-        ##1}}}}
-\fi
+% \input{size1\@ptsize.clo}
+% \setlength\lineskip{1\p@}
+% \setlength\normallineskip{1\p@}
+% \renewcommand\baselinestretch{}
+% \setlength\parskip{0\p@ \@plus \p@}
+% \@lowpenalty   51
+% \@medpenalty  151
+% \@highpenalty 301
+% \setcounter{topnumber}{2}
+% \renewcommand\topfraction{.7}
+% \setcounter{bottomnumber}{1}
+% \renewcommand\bottomfraction{.3}
+% \setcounter{totalnumber}{3}
+% \renewcommand\textfraction{.2}
+% \renewcommand\floatpagefraction{.5}
+% \setcounter{dbltopnumber}{2}
+% \renewcommand\dbltopfraction{.7}
+% \renewcommand\dblfloatpagefraction{.5}
+% \if@twoside
+%   \def\ps@headings{%
+%     \let\@oddfoot\@empty\let\@evenfoot\@empty
+%     \def\@evenhead{\thepage\hfil\slshape\leftmark}%
+%     \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
+%     \let\@mkboth\markboth
+%     \def\chaptermark##1{%
+%       \markboth {\MakeUppercase{%
+%         \ifnum \c@secnumdepth >\m@ne
+%             \@chapapp\ \thechapter. \ %
+%         \fi
+%         ##1}}{}}%
+%     \def\sectionmark##1{%
+%       \markright {\MakeUppercase{%
+%         \ifnum \c@secnumdepth >\z@
+%           \thesection. \ %
+%         \fi
+%         ##1}}}}
+% \else
+%   \def\ps@headings{%
+%     \let\@oddfoot\@empty
+%     \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
+%     \let\@mkboth\markboth
+%     \def\chaptermark##1{%
+%       \markright {\MakeUppercase{%
+%         \ifnum \c@secnumdepth >\m@ne
+%             \@chapapp\ \thechapter. \ %
+%         \fi
+%         ##1}}}}
+% \fi
 
 \def\ps@UERJ{%
   \let\@oddfoot\@empty
@@ -275,7 +209,7 @@
 % ------------------------------ \maketitle PARAMETERS
 
 \if@titlepage
-  \newcommand\maketitle{
+  \renewcommand\maketitle{
     \begin{titlepage}%
       \let\footnotesize\small
       \let\footnoterule\relax
