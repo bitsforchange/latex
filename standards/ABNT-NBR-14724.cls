@@ -45,8 +45,24 @@
 
 % The default action for any option is to pass it to the book class.
 %     What should I do to change other packages options?
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
- 
+% \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+
+\DeclareOption{showframe}{\PassOptionsToClass{\CurrentOption}{\geometry{showframe=true}}}
+
+% Options from 'repUERJformat.sty'
+% \newboolean{UERJshowframe}
+% \setboolean{UERJshowframe}{false}
+% \DeclareOption{frame=yes}  {\setboolean{UERJshowframe}{true}}
+% \DeclareOption{frame=no}   {\setboolean{UERJshowframe}{false}}
+
+% \newboolean{flaga}\setboolean{flaga}{false}
+% \newboolean{flagb}\setboolean{flagb}{false}
+
+% \DeclareOption{font=times}     {\setboolean{flaga}{true}\setboolean{flagb}{false}}
+% \DeclareOption{font=sans}      {\setboolean{flaga}{false}\setboolean{flagb}{true}}
+% \DeclareOption{font=default}   {\setboolean{flaga}{false}\setboolean{flagb}{false}}
+% \DeclareOption{font=lmodern}   {\setboolean{flaga}{true}\setboolean{flagb}{true}}
+
 % Execute the options.
 \ProcessOptions
  
@@ -100,6 +116,22 @@
 % ---
 % \RequirePackage[dots=yes]{repUERJpseudocode}
 
+\RequirePackage{ifthen}
+\RequirePackage{enumitem}
+\RequirePackage{calc}
+\RequirePackage{pifont}
+\RequirePackage{keyval}
+\RequirePackage{lastpage}
+
+% pacotes uteis para diagramacao da pagina
+\RequirePackage{geometry}
+\RequirePackage{eso-pic}
+%\RequirePackage[noframe]{showframe}
+
+\RequirePackage{amsmath}
+%\setlength{\mathindent}{\parindent}
+% \setlength{\mathindent}{0pt}
+
 \RequirePackage[maxfloats=25]{morefloats}
 \RequirePackage{array}
 \setlength\extrarowheight{2pt}
@@ -113,6 +145,37 @@
 \setlength\fboxsep{3\p@}
 \setlength\fboxrule{.4\p@}
 
+% \ifthenelse{\boolean{flaga}\and\not\boolean{flagb}}
+% {
+%   \RequirePackage{mathptmx}
+%   \RequirePackage[T1]{fontenc}
+%   \renewcommand*{\rmdefault}{ptm}
+% }
+% {
+%   \ifthenelse{\not\boolean{flaga}\and\boolean{flagb}} %
+%   {
+%     \RequirePackage[scaled=0.9]{helvet}
+%     \RequirePackage[T1]{fontenc}
+%     \renewcommand{\familydefault}{\sfdefault}
+%   }
+%   {
+%     \ifthenelse{\boolean{flaga}\and\boolean{flagb}} %
+%     {
+%       \RequirePackage{lmodern}
+%       \RequirePackage[T1]{fontenc}
+%       \renewcommand{\familydefault}{\sfdefault}
+%     }
+%     {
+%       \RequirePackage{lmodern}
+%       \RequirePackage[T1]{fontenc}
+%       \renewcommand{\familydefault}{\rmdefault}
+%     }
+%   }
+% }
+
+
+
+
 % ------------------------------ PAGE STYLE
 
 % refaz o comando do setspace
@@ -124,6 +187,8 @@
 \@titlepagetrue
 \newif\if@openright
 
+\setkeys{ESO}{colorgrid=true}
+\gridSetup[mm]{1.266mm}{1.266}{5}{20}{1}
 
 % ------------------------------ TEXT SIZE
 
@@ -480,6 +545,12 @@
 \newlength\belowptchapterskip
 \setlength\aboveptchapterskip{-2.1\baselineskip}
 \setlength\belowptchapterskip{2.5\baselineskip}
+
+
+\newcommand{\ifnotempty}[2]{%
+  \ifthenelse{\not\equal{#1}{}}{#2}{}%
+%  \if{\not\equal{#1}{}}{#2}\fi
+}
 
 
 % ------------------------------ PRE-TEXTUAL CHAPTER
@@ -1158,3 +1229,36 @@
 \newcommand\appendixname{Appendix}
 \newcommand\annexname{Annex}
 \newcommand\abstractname{Abstract}
+
+
+
+% BABEL CONFIGURATION
+% \addto\captionsbrazil{%
+%   \renewcommand\contentsname{Sum\'ario}
+%   \renewcommand{\listfigurename}{Lista de Figuras}
+%   \renewcommand{\listtablename}{Lista de tabelas}
+%   \renewcommand{\listinframename}{Lista de Quadros}
+%   \renewcommand{\listgraphname}{Lista de Gráficos}
+%   \renewcommand\bibname{Refer\^encias}
+%   \renewcommand\indexname{\'Indice de assuntos}
+%   \renewcommand\figurename{Figura}
+%   \renewcommand\legendname{Legenda}
+%   \renewcommand\sourcename{Fonte}
+%   \renewcommand\tablename{Tabela}
+%   \renewcommand\inframename{Quadro}
+%   \renewcommand\graphname{Gráfico}
+%   \renewcommand\partname{}
+%   \renewcommand\chaptername{}
+%   \renewcommand\appendixname{Ap\^endice}
+%   \renewcommand\annexname{Anexo}
+%   \renewcommand\abstractname{Abstract}
+% }
+
+% \newcommand{\abrevnome}{Lista de abreviaturas e siglas}
+% \newcommand{\simbnome}{Lista de s\'imbolos}
+% \newcommand{\dedicatorianome}{Dedicat\'oria}
+% \newcommand{\agradecimentosnome}{Agradecimentos}
+% \newcommand{\orientadornome}{Orientador}
+% \newcommand{\coorientadornome}{Coorientador}
+% \newcommand{\resumonome}{Resumo}
+% \newcommand{\glossarionome}{Gloss\'ario}
