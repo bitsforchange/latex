@@ -31,7 +31,6 @@
 
 
 % Switch off some of the book options.
-%     Still need be evaluated
 % \DeclareOption{a4paper}{\OptionNotUsed}
 \DeclareOption{a5paper}{\OptionNotUsed}
 \DeclareOption{b5paper}{\OptionNotUsed}
@@ -44,17 +43,17 @@
 % \DeclareOption{onecolumn}{\OptionNotUsed}
 
 % The default action for any option is to pass it to the book class.
-%     What should I do to change other packages options?
-% \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 
-\DeclareOption{showframe}{\PassOptionsToClass{\CurrentOption}{\geometry{showframe=true}}}
+\DeclareOption{showframe}{\PassOptionsToPackage{\CurrentOption}{geometry}}
+\DeclareOption{brazil}{\PassOptionsToPackage{\CurrentOption}{babel}}
+\DeclareOption{spanish}{\PassOptionsToPackage{\CurrentOption}{babel}}
+\DeclareOption{italian}{\PassOptionsToPackage{\CurrentOption}{babel}}
+\DeclareOption{french}{\PassOptionsToPackage{\CurrentOption}{babel}}
+\DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{babel}}
+\DeclareOption{...}{\PassOptionsToPackage{\CurrentOption}{...}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 
 % Options from 'repUERJformat.sty'
-% \newboolean{UERJshowframe}
-% \setboolean{UERJshowframe}{false}
-% \DeclareOption{frame=yes}  {\setboolean{UERJshowframe}{true}}
-% \DeclareOption{frame=no}   {\setboolean{UERJshowframe}{false}}
-
 % \newboolean{flaga}\setboolean{flaga}{false}
 % \newboolean{flagb}\setboolean{flagb}{false}
 
@@ -64,13 +63,17 @@
 % \DeclareOption{font=lmodern}   {\setboolean{flaga}{true}\setboolean{flagb}{true}}
 
 % Execute the options.
-\ProcessOptions
+\ProcessOptions\relax
  
 % Load the book class.
 \LoadClass[a4paper,12pt,oneside,onecolumn,final,openany]{book}
 
 
 % ------------------------------ REQUIRED PACKAGES
+
+\RequirePackage{babel}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc} % Determina a codificação utilizada (conversão automática dos acentos)
 
 % The package url.sty takes care of breaking url's that are too long
 % to fit in a two-column design
@@ -96,9 +99,8 @@
 \RequirePackage{pdfpages}
 \RequirePackage{setspace}
 
-\RequirePackage[brazil]{babel}  % adequação para o português Brasil
-\RequirePackage[utf8]{inputenc} % Determina a codificação utilizada
-                            % (conversão automática dos acentos)
+
+
 \RequirePackage{makeidx}        % Cria o índice
 \RequirePackage{hyperref}       % Controla a formação do índice
 \RequirePackage{indentfirst}    % Indenta o primeiro paragrafo de
@@ -1230,30 +1232,32 @@
 \newcommand\annexname{Annex}
 \newcommand\abstractname{Abstract}
 
-
-
 % BABEL CONFIGURATION
-% \addto\captionsbrazil{%
-%   \renewcommand\contentsname{Sum\'ario}
-%   \renewcommand{\listfigurename}{Lista de Figuras}
-%   \renewcommand{\listtablename}{Lista de tabelas}
-%   \renewcommand{\listinframename}{Lista de Quadros}
-%   \renewcommand{\listgraphname}{Lista de Gráficos}
-%   \renewcommand\bibname{Refer\^encias}
-%   \renewcommand\indexname{\'Indice de assuntos}
-%   \renewcommand\figurename{Figura}
-%   \renewcommand\legendname{Legenda}
-%   \renewcommand\sourcename{Fonte}
-%   \renewcommand\tablename{Tabela}
-%   \renewcommand\inframename{Quadro}
-%   \renewcommand\graphname{Gráfico}
-%   \renewcommand\partname{}
-%   \renewcommand\chaptername{}
-%   \renewcommand\appendixname{Ap\^endice}
-%   \renewcommand\annexname{Anexo}
-%   \renewcommand\abstractname{Abstract}
-% }
+\addto\captionsbrazil{%
+  \renewcommand\bibname{Referências}
+  \renewcommand\indexname{Índice}
+  \renewcommand\legendname{Legenda}
+  \renewcommand\sourcename{Fonte}
+  % 
+  \renewcommand\contentsname{Sumário}
+  \renewcommand{\listfigurename}{Lista de figuras}
+  \renewcommand{\listtablename}{Lista de tabelas}
+  \renewcommand{\listinframename}{Lista de quadros}
+  \renewcommand{\listgraphname}{Lista de gráficos}
+  % 
+  \renewcommand\figurename{Figura}
+  \renewcommand\tablename{Tabela}
+  \renewcommand\inframename{Quadro}
+  \renewcommand\graphname{Gráfico}
+  % 
+  \renewcommand\partname{}
+  \renewcommand\chaptername{}
+  \renewcommand\appendixname{Apêndice}
+  \renewcommand\annexname{Anexo}
+  \renewcommand\abstractname{Abstract}
+}
 
+% Opcional da Norma, ver como incluir isso em inglês tb (acho q já consertei isso no meu modelo!)
 % \newcommand{\abrevnome}{Lista de abreviaturas e siglas}
 % \newcommand{\simbnome}{Lista de s\'imbolos}
 % \newcommand{\dedicatorianome}{Dedicat\'oria}
