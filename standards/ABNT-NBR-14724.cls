@@ -80,6 +80,8 @@
   \newcommand*{\url}[1]{\texttt{##1}}
   \newcommand*{\email}[1]{\texttt{##1}}
   }
+  
+\RequirePackage[symbols]{glossaries-extra}
 
 \RequirePackage{ifthen}
 \RequirePackage[normalem]{ulem}
@@ -97,7 +99,7 @@
 \RequirePackage{subfig}
 \RequirePackage{multirow}
 \RequirePackage{amsmath,amssymb}  % pacotes matemáticos
-\RequirePackage[alf]{abntex2cite} % pacote para citacoes
+% \RequirePackage[alf]{abntex2cite} % pacote para citacoes
 % \RequirePackage[font=default,frame=no]{repUERJformat} % pacote para as normas da UERJ
 % ---
 % pacote auxiliar para elaboração de pseudocódigos
@@ -172,88 +174,65 @@
 
 % ------------------------------ LANGUAGE SETUP
 % English is the default
-\renewcommand\bibname{Bibliography}
-\renewcommand\indexname{Index}
-\newcommand\legendname{Legend}
-\newcommand\sourcename{Source}
+\addto\captionsamerican{
+    % \renewcommand\bibname{References}
+    \renewcommand{\acronymname}{List of abbreviations and acronyms}
+    \renewcommand{\symbolname}{List of Symbols}
+}
+\newcommand{\inscriptionname}{Inscription}
+\newcommand{\acknowledgementsname}{Acknowledgements}
+\newcommand{\listinframename}{List of Frames}
+\newcommand{\listgraphname}{List of Graphs}
+\newcommand{\inframename}{Frame}
+\newcommand{\graphname}{Graph}
+\newcommand{\annexname}{Annex}
+\newcommand{\abstractname}{Abstract}
+\newcommand{\legendname}{Legend}
+\newcommand{\sourcename}{Source}
 
-\renewcommand\contentsname{Contents}
-\renewcommand\listfigurename{List of Figures}
-\renewcommand\listtablename{List of Tables}
-\newcommand\listinframename{List of Frames}
-\newcommand\listgraphname{List of Graphs}
-
-\renewcommand\figurename{Figure}
-\renewcommand\tablename{Table}
-\newcommand\inframename{Frame}
-\newcommand\graphname{Graph}
-
-\renewcommand\partname{Part}
-\renewcommand\chaptername{Chapter}
-\renewcommand\appendixname{Appendix}
-\newcommand\annexname{Annex}
-\newcommand\abstractname{Abstract}
+% \newcommand{\glossarionome}{Gloss\'ario}
+% \renewcommand*{\glossarysection}[2][]{\pretextualchapter{#2}}%
 
 % Brazilian Portuguese
 \addto\captionsbrazil{%
-  \renewcommand\bibname{Referências}
-  \renewcommand\indexname{Índice}
-  \renewcommand\legendname{Legenda}
-  \renewcommand\sourcename{Fonte}
-  % 
-  \renewcommand\contentsname{Sumário}
-  \renewcommand{\listfigurename}{Lista de figuras}
-  \renewcommand{\listtablename}{Lista de tabelas}
-  \renewcommand{\listinframename}{Lista de quadros}
-  \renewcommand{\listgraphname}{Lista de gráficos}
-  % 
-  \renewcommand\figurename{Figura}
-  \renewcommand\tablename{Tabela}
-  \renewcommand\inframename{Quadro}
-  \renewcommand\graphname{Gráfico}
-  % 
-  \renewcommand\partname{}
-  \renewcommand\chaptername{}
-  \renewcommand\appendixname{Apêndice}
-  \renewcommand\annexname{Anexo}
-  \renewcommand\abstractname{Abstract}
+    \renewcommand{\bibname}{Referências}
+    \renewcommand{\contentsname}{Sumário}
+    \renewcommand{\indexname}{Índice}
+    \renewcommand{\listfigurename}{Lista de figuras}
+    \renewcommand{\listtablename}{Lista de tabelas}
+    \renewcommand{\listinframename}{Lista de quadros}
+    \renewcommand{\listgraphname}{Lista de gráficos}
+    \renewcommand{\acronymname}{Lista de abreviaturas e siglas}
+    \renewcommand{\symbolname}{Lista de símbolos}
+    \renewcommand{\inscriptionname}{Dedicatória}
+    \renewcommand{\acknowledgementsname}{Agradecimentos}
+    \renewcommand{\figurename}{Figura}
+    \renewcommand{\tablename}{Tabela}
+    \renewcommand{\inframename}{Quadro}
+    \renewcommand{\graphname}{Gráfico}
+    \renewcommand{\legendname}{Legenda}
+    \renewcommand{\sourcename}{Fonte}
+    \renewcommand{\partname}{}
+    \renewcommand{\chaptername}{Capítulo}
+    \renewcommand{\appendixname}{Apêndice}
+    \renewcommand{\annexname}{Anexo}
+    \renewcommand{\abstractname}{Resumo}
 }
 
 % Spanish
-\addto\captionspanish{%
-  \renewcommand\bibname{Bibliography}
-  \renewcommand\indexname{Index}
-  \renewcommand\legendname{Legend}
-  \renewcommand\sourcename{Source}
-  % 
-  \renewcommand\contentsname{Contents}
-  \renewcommand{\listfigurename}{List of Figures}
-  \renewcommand{\listtablename}{List of Tables}
-  \renewcommand{\listinframename}{List of Frames}
-  \renewcommand{\listgraphname}{List of Graphs}
-  % 
-  \renewcommand\figurename{Figure}
-  \renewcommand\tablename{Table}
-  \renewcommand\inframename{Frame}
-  \renewcommand\graphname{Graph}
-  % 
-  \renewcommand\partname{Part}
-  \renewcommand\chaptername{Chapter}
-  \renewcommand\appendixname{Appendix}
-  \renewcommand\annexname{Annex}
-  \renewcommand\abstractname{Abstract}
-}
+
+% French
+
+% Italian
+
+% German
 
 
 % Opcional da Norma, ver como incluir isso em inglês tb (acho q já consertei isso no meu modelo!)
-% \newcommand{\abrevnome}{Lista de abreviaturas e siglas}
-% \newcommand{\simbnome}{Lista de s\'imbolos}
-% \newcommand{\dedicatorianome}{Dedicat\'oria}
-% \newcommand{\agradecimentosnome}{Agradecimentos}
-% \newcommand{\orientadornome}{Orientador}
-% \newcommand{\coorientadornome}{Coorientador}
-% \newcommand{\resumonome}{Resumo}
-% \newcommand{\glossarionome}{Gloss\'ario}
+
+\newcommand{\orientadornome}{Orientador}
+\newcommand{\coorientadornome}{Coorientador}
+
 
 
 
@@ -336,8 +315,18 @@
     {0pt} % sep
     {#1} % title name
 
-
-
+% ANNEX
+\newcommand\annex{\par
+    \setcounter{chapter}{0}
+    \setcounter{section}{0}
+    \renewcommand\appendixname{Annex}
+    % \renewcommand\appendixpagename{Annexes}
+    % \renewcommand{\appendixtocname}{Annexes}
+    % \gdef\@chapapp{\annexname}
+    % \gdef\thechapter{\@Roman\c@chapter}
+    % \renewcommand{\theHchapter}{\annexname.\thechapter}
+    % \addappheadtotoc
+    }
 
 
 % ------------------------------ PRE-TEXTUAL CHAPTER
@@ -346,6 +335,12 @@
 % Elementos sem título e sem indicativo numérico: folha de aprovação, dedicatória e epígrafe.
 
 % Títulos sem indicativo numérico (errata, agradecimentos, lista de ilustrações, lista de abreviaturas e siglas, lista de símbolos, resumos, sumário, referências, glossário, apêndice(s), anexo(s) e índice(s)): devem ser centralizados.
+
+\newenvironment{inscription}{\chapter*{\inscriptionname}\vfill\noindent}{}
+\newenvironment{acknowledgements}{\chapter*{\acknowledgementsname}\vfill\noindent}{}
+\newenvironment{epigraph}{\vfill\noindent}{}
+\newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference\vspace{\doublespacing}}{\printkeys\vfill}
+
 
 % TOCs
 \renewcommand\tableofcontents{%
