@@ -9,12 +9,7 @@
 % ------------------------------ Preliminary declarations
 
 % Global variables.
-\newcommand{\ifnotempty}[2]
-{
-  \ifthenelse{\not\equal{#1}{}}
-  {#2}
-  {}
-}
+\newcommand{\ifnotempty}[2]{\ifthenelse{\not\equal{#1}{}}{#2}{}}
 
 % \newcommand{check}[2]
 % {
@@ -248,10 +243,13 @@
 \setlength{\img}{2.2cm}
 \renewcommand{\maketitle}{
     \thispagestyle{empty}
-    \centering\large
+    {\centering\large
     \begin{onehalfspace}
-        {\parbox[c]{\img}{\includegraphics[width=\img]{\logo}}
-        \parbox[c]{\textwidth-\img-2mm}{\centering{\large\IESdata\par}}}
+        {\ifthenelse{\equal{\logo}{}}
+            {\parbox[c]{\textwidth}{\centering{\large\IESdata\par}}}
+            {\parbox[c]{\img}{\includegraphics[width=\img]{\logo}}
+            \parbox[c]{\textwidth-\img-2mm}{\centering{\large\IESdata\par}}}
+        }
         \hfill
         {\hspace{\img}}
         \vfill\vfill
@@ -262,7 +260,7 @@
         \printcidade\\[0.3\baselineskip]
     \end{onehalfspace}
     \printdata
-    \normalsize\cleardoublepage
+    \normalsize\cleardoublepage}
 }
 
 
