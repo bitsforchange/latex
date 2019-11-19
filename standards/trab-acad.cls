@@ -11,6 +11,16 @@
 % Global variables.
 \newcommand{\ifnotempty}[2]{\ifthenelse{\not\equal{#1}{}}{#2}{}}
 
+\newif\ifquali
+\qualifalse
+
+\newcommand{\signature}[2]{%
+    % \@ifstar%
+    {\par\hspace{1cm}\parbox[t]{12.25cm}{\singlespacing{\nopagebreak{#1\\#2}\par\vspace*{0.8cm}}}}%
+    % {\begingroup\par\hspace{0.75\baselineskip}\parbox[t]{12.25cm}{\singlespacing{\vspace*{0.8cm}\rule{12.25cm}{1pt}\par\nopagebreak{#1\\#2}\par}}\endgroup}
+}
+
+
 % \newcommand{check}[2]
 % {
 %     \IfFileExists{#1.sty}
@@ -42,18 +52,46 @@
 \providecommand{\printcidade}{}
 \newcommand{\cidade}[1]{\renewcommand{\printcidade}{#1}}
 
-
 \providecommand{\printdata}{}
 \newcommand{\data}[3]{
-  \newcommand{\dia}{\relax#1}
-  \newcommand{\mes}{\relax#2}
-  \newcommand{\ano}{\relax#3}
-  \renewcommand{\printdata}{\ano}
+    \newcommand{\dia}{\relax#1}
+    \newcommand{\mes}{\relax#2}
+    \newcommand{\ano}{\relax#3}
+    \renewcommand{\printdata}{\ano}
 }
 
-\newcommand{\advisorname}{Orientador}
-\newcommand{\coadvisorname}{Coorientador}
+\newcommand{\advisor}[2]{
+    \newcommand{\advisoropt}{\advisorlang}
+    \newcommand{\advisorname}{#1}
+    \newcommand{\advisoraffiliation}{#2}
+}
 
+\newcommand{\coadvisor}[2]{
+    \newcommand{\coadvisoropt}{\coadvisorlang}
+    \newcommand{\coadvisorname}{#1}
+    \newcommand{\coadvisoraffiliation}{#2}
+}
+
+\newcommand{\reference}[1]{\singlespacing\begin{flushleft}#1\end{flushleft}\vspace*{0.5\baselineskip}}
+\newcommand{\headertext}[1]{\reference{%
+    \MakeUppercase{\authorfullnamesobrenome}, \authorfullnamenomeabvr\ \emph{\@title}. \@ano.% \UERJpaginas\ f. \UERJdocumento\ (\UERJgrau\ em \UERJcurso) -- \UERJunidade, \UERJunidadenome,
+    % \UERJnome, \UERJlocal, \UERJano.%
+}}
+
+\newlength{\hanglength}
+\newcommand{\printkeys}{
+  \vspace{0.3\baselineskip}0.75\baselineskip \settowidth{\hanglength}{Keywords: }
+  \noindent Keywords: \parbox[t]{\textwidth-\hanglength}{
+    % \raggedright \keyA\ \keyB\ \keyC\ \keyD\
+  }
+}
+
+% \newcommand{\marcadagua}[4] {%
+  \newcommand{\UERJmarcadagua}{marcadagua_uerj_cinza.png}%{#1}
+  \newcommand{\imgscale}{1}%{#2}
+  \newcommand{\imgposX}{0}%{#3}
+  \newcommand{\imgposY}{0}%{#4}
+% }
 
 
 % The configuration file, used for passing options. (the way to talk with .sty file) -- I don't know if it has to stay here.
@@ -96,8 +134,8 @@
 \RequirePackage[symbols]{glossaries-extra}  % to affordable handle with glossary, acronyms and symbols
 \RequirePackage{makeidx}                    % for index -- to be reviewed its requirement
 \RequirePackage[normalem]{ulem}             % for underlining
+\RequirePackage{comment}                    % to comment block of texts
 \RequirePackage{pdfpages}                   
-
 \RequirePackage{float}
 \RequirePackage[maxfloats=25]{morefloats}
 \RequirePackage{caption}
@@ -144,7 +182,7 @@
 % \DeclareOption{landscape}{\OptionNotUsed}
 \DeclareOption{twoside}{\OptionNotUsed}
 \DeclareOption{titlepage}{\OptionNotUsed}
-% \DeclareOption{onecolumn}{\OptionNotUsed}
+\DeclareOption{twocolumn}{\OptionNotUsed}
 
 % The default action for any option is to pass it to the book class.
 \DeclareOption{showframe}{\PassOptionsToPackage{\CurrentOption, pass}{geometry}}
@@ -154,9 +192,7 @@
 \DeclareOption{french}{\PassOptionsToPackage{\CurrentOption}{babel}}
 \DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{babel}}
 % \DeclareOption{...}{\PassOptionsToPackage{\CurrentOption}{...}}
-\DeclareOption{quali}{so-manter-o-obrigatorio{quali}}
-\DeclareOption{draft}{\PassOptionsToClass{\CurrentOption}{book}}
-\DeclareOption{final}{\PassOptionsToClass{\CurrentOption}{book}}
+\DeclareOption{quali}{\qualitrue}%\qualibool{1}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 
 % opção padrão: [ABNT] = ABNT-NBR-14724 = só informativo para o usuário, deixar em branco tem o mesmo resultado.
@@ -197,6 +233,8 @@
 \newcommand{\abstractname}{Abstract}
 \newcommand{\legendname}{Legend}
 \newcommand{\sourcename}{Source}
+\newcommand{\advisorlang}{Advisor}
+\newcommand{\coadvisorlang}{Co-advisor}
 
 % \newcommand{\glossarionome}{Gloss\'ario}
 % \renewcommand*{\glossarysection}[2][]{\pretextualchapter{#2}}%
@@ -226,6 +264,8 @@
     \renewcommand{\appendixname}{Apêndice}
     \renewcommand{\annexname}{Anexo}
     \renewcommand{\abstractname}{Resumo}
+    \renewcommand{\advisorlang}{Orientador} % incluir gênero
+    \renewcommand{\coadvisorlang}{Coorientador} % incluir gênero
 }
 
 % Spanish
@@ -263,8 +303,81 @@
     \normalsize\cleardoublepage}
 }
 
+\newcommand{\folhaderosto}{\@ifstar{\UERJfolhaderostoB}{\UERJfolhaderostoA}}
 
-% ------------------------------ SECTIONING COMMANDS
+\newcommand{\UERJfolhaderostoA}{
+  \thispagestyle{empty}%
+  {
+    \centering
+    \begin{onehalfspace}
+      \AddToShipoutPicture*{
+        \put(\imgposX,\imgposY){
+          \includegraphics[scale=\imgscale]{\UERJmarcadagua}
+        }
+      } 
+      \authorfullname\par
+      \vfill\vfill
+      {\bfseries\@title}\par
+      \vfill\vfill\vfill
+      \vspace{.8cm}
+      \hspace{.49\textwidth}
+      \begin{minipage}{.5\textwidth}
+        %  \UERJpreambulo
+       \end{minipage}%
+       \vfill\vfill\vfill\vfill\vfill
+    %   \UERJsurpevisor: \UERJorientador\par
+    %   \ifnotempty{\UERJcoorientador}{
+        %  {\UERJcosurpevisor: \UERJcoorientador}\par
+    %   }
+      \vfill\vfill\vfill
+      \printcidade\\[0.1\baselineskip]
+    \end{onehalfspace}
+    \UERJdata
+    \cleardoublepage
+  }
+}
+
+\newcommand{\UERJfolhaderostoB}{
+  \thispagestyle{empty}%
+  {
+    \centering
+    \begin{onehalfspace}
+      \AddToShipoutPicture*{
+        \put(\imgposX,\imgposY){
+          \includegraphics[scale=\imgscale]{\UERJmarcadagua}
+        }
+      } 
+      \authorfullname\par
+      \vfill\vfill\vfill
+      {\bfseries\@title}\par
+      \vfill\vfill\vfill\vfill\vfill
+      \vspace{.8cm}
+      \hspace{.49\textwidth}
+      \begin{minipage}{.5\textwidth}
+         \UERJpreambulo
+       \end{minipage}%
+       \vfill\vfill\vfill\vfill\vfill
+      \begin{center}
+        Autorizo a apresentação
+        \vspace{1cm}
+        \hrule
+        \vspace{0.4cm}
+        % \UERJsurpevisor: \UERJorientador\par
+      \end{center}
+    %   \ifnotempty{\UERJcoorientador}{
+    %      {\UERJcosurpevisor: \UERJcoorientador}\par
+    %   }
+      \vfill\vfill\vfill
+      \UERJlocal\\[0.1\baselineskip]
+    \end{onehalfspace}
+    \UERJdata
+    \cleardoublepage
+  }
+}
+
+
+
+% REDESIGN SECTIONING COMMANDS
 \setcounter{secnumdepth}{3} % until subsubsection
 
 % CHAPTER
@@ -352,223 +465,165 @@
     % \addappheadtotoc
     }
 
+% SPECIFIC ENVIRONMENTS OF THE STANDARD
 
-% ------------------------------ PRE-TEXTUAL CHAPTER
-% Alinhamento centralizado: na folha de rosto e na folha de aprovação, a natureza do trabalho, o objetivo, o nome da instituição a que é submetida e a área de concentração.
+% ----- Pré-textual -----
 
-% Elementos sem título e sem indicativo numérico: folha de aprovação, dedicatória e epígrafe.
+% Folha de rosto
 
-% Títulos sem indicativo numérico (errata, agradecimentos, lista de ilustrações, lista de abreviaturas e siglas, lista de símbolos, resumos, sumário, referências, glossário, apêndice(s), anexo(s) e índice(s)): devem ser centralizados.
+% Errata
+\ifquali
+    \excludecomment{erratum}
+\else
+    \newenvironment{erratum}{\chapter*{\erratumname}}{\vfill}
+\fi
 
-
-
-
-
-
-
-
-
-\newcommand{\reference}[1]{\singlespacing\begin{flushleft}#1\end{flushleft}\vspace*{0.5\baselineskip}}
-\newcommand{\headertext}[1]{\reference{%
-    \MakeUppercase{\authorfullnamesobrenome}, \authorfullnamenomeabvr\ \emph{\@title}. \@ano.% \UERJpaginas\ f. \UERJdocumento\ (\UERJgrau\ em \UERJcurso) -- \UERJunidade, \UERJunidadenome,
-    % \UERJnome, \UERJlocal, \UERJano.%
-}}
-
-\newlength{\hanglength}
-\newcommand{\printkeys}{
-  \vspace{0.3\baselineskip}\onehalfspacing \settowidth{\hanglength}{Keywords: }
-  \noindent Keywords: \parbox[t]{\textwidth-\hanglength}{
-    % \raggedright \keyA\ \keyB\ \keyC\ \keyD\
-  }
-}
-
-% \newcommand{\marcadagua}[4] {%
-  \newcommand{\UERJmarcadagua}{marcadagua_uerj_cinza.png}%{#1}
-  \newcommand{\imgscale}{1}%{#2}
-  \newcommand{\imgposX}{0}%{#3}
-  \newcommand{\imgposY}{0}%{#4}
-% }
-
-
-
-
-
-\newcommand{\folhaderosto}{\@ifstar{\UERJfolhaderostoB}{\UERJfolhaderostoA}}
-
-\newcommand{\UERJfolhaderostoA}{
-  \thispagestyle{empty}%
-  {
-    \centering
+% Folha de aprovação
+\newenvironment{folhadeaprovacao}{\thispagestyle{empty}%
     \begin{onehalfspace}
-      \AddToShipoutPicture*{
-        \put(\imgposX,\imgposY){
-          \includegraphics[scale=\imgscale]{\UERJmarcadagua}
+        {
+            \centering
+            \authorfullname\par
+            \vspace{1.0cm}
+            {\bfseries\@title}\\
+            \vspace{1.0cm}
         }
-      } 
-      \authorfullname\par
-      \vfill\vfill
-      {\bfseries\@title}\par
-      \vfill\vfill\vfill
-      \vspace{.8cm}
-      \hspace{.49\textwidth}
-      \begin{minipage}{.5\textwidth}
-        %  \UERJpreambulo
-       \end{minipage}%
-       \vfill\vfill\vfill\vfill\vfill
-    %   \UERJsurpevisor: \UERJorientador\par
-    %   \ifnotempty{\UERJcoorientador}{
-        %  {\UERJcosurpevisor: \UERJcoorientador}\par
-    %   }
-      \vfill\vfill\vfill
-      \UERJlocal\\[0.1\baselineskip]
+        \noindent\hspace{.49\textwidth}
+        \begin{minipage}{.5\textwidth}
+        %   \UERJpreambulo
+        \end{minipage}
+        
+        \vspace{1.3cm}
+        \noindent Aprovada em \rule{1cm}{.1pt} de \rule{4cm}{.1pt} de \ano.\par
+        \noindent Aprovada em \dia\ de \mes\ de \ano.\par
+        \noindent Banca Examinadora:\\[-1.5\baselineskip]
+        \signature{\advisorname\ (\advisoropt)}{\advisoraffiliation}
+        % \ifnotempty{\coadvisor}{
+        %     \signature{\coadvisorname (\coadvisoropt)}{\coadvisoraffiliation}
+        % }{\UERJcoorientadorinstituicao}
+        % }
     \end{onehalfspace}
-    \UERJdata
-    \cleardoublepage
-  }
-}
-
-\newcommand{\UERJfolhaderostoB}{
-  \thispagestyle{empty}%
-  {
-    \centering
-    \begin{onehalfspace}
-      \AddToShipoutPicture*{
-        \put(\imgposX,\imgposY){
-          \includegraphics[scale=\imgscale]{\UERJmarcadagua}
-        }
-      } 
-      \authorfullname\par
-      \vfill\vfill\vfill
-      {\bfseries\@title}\par
-      \vfill\vfill\vfill\vfill\vfill
-      \vspace{.8cm}
-      \hspace{.49\textwidth}
-      \begin{minipage}{.5\textwidth}
-         \UERJpreambulo
-       \end{minipage}%
-       \vfill\vfill\vfill\vfill\vfill
-      \begin{center}
-        Autorizo a apresentação
-        \vspace{1cm}
-        \hrule
-        \vspace{0.4cm}
-        % \UERJsurpevisor: \UERJorientador\par
-      \end{center}
-    %   \ifnotempty{\UERJcoorientador}{
-    %      {\UERJcosurpevisor: \UERJcoorientador}\par
-    %   }
-      \vfill\vfill\vfill
-      \UERJlocal\\[0.1\baselineskip]
-    \end{onehalfspace}
-    \UERJdata
-    \cleardoublepage
-  }
-}
-
-\newenvironment{erratum}{\chapter*{\erratumname}}{\vfill}
-\newenvironment{inscription}{\chapter*{\inscriptionname}\vfill\noindent}{}
-\newenvironment{acknowledgements}{\chapter*{\acknowledgementsname}\vfill\noindent}{}
-\newenvironment{epigraph}{\vfill\noindent}{}
-\newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference\vspace{\doublespacing}}{\printkeys\vfill}
-
-
-\newenvironment{folhadeaprovacao}{
-  \thispagestyle{empty}%
-%  \begin{onehalfspace}
-    {
-      \centering
-    %   \authorfullname\par
-      \vspace{1.0cm}
-      {\bfseries\@title}\\
-      \vspace{1.0cm}
-    }
-    \noindent\hspace{.49\textwidth}
-    \begin{minipage}{.5\textwidth}
-    %   \UERJpreambulo
-    \end{minipage}%
-    \vspace{1.3cm}
-    % \noindent Aprovada em \_\_\_\_\_\_ de \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ de \UERJano.\par
-    % \noindent Aprovada em \UERJdia\ de \UERJmes\ de \UERJano.\par
-    \noindent Banca Examinadora:\\[-1.5\baselineskip]
-    %   \assinatura{\UERJorientador\ (\UERJsurpevisor)}{\UERJorientadorinstituicao}
-    %   \ifnotempty{\UERJcoorientador}{
-        % \assinatura{\UERJcoorientador\ (\UERJcosurpevisor)}{\UERJcoorientadorinstituicao}
-    %   }
-%  \end{onehalfspace}
 }
 {
-  \vfill
-  {\centering
-    % \UERJlocal\\[0.1\baselineskip]
-    % \UERJdata\par
-  }
-  \cleardoublepage
+    \vfill
+    {\centering
+    \printcidade\\[0.1\baselineskip]
+    \printdata\par
+    }
+    \cleardoublepage
 }
 
-% TOCs
-\renewcommand\tableofcontents{%
-    \if@twocolumn
-        \@restonecoltrue\onecolumn
-    \else
-        \@restonecolfalse
-    \fi
-    \chapter*{\contentsname}%
-    \@starttoc{toc}%
-    \if@restonecol\twocolumn\fi
-    \cleardoublepage
-    }
+% Dedicatória(s)
+\ifquali
+    \excludecomment{inscription}
+\else
+    \newenvironment{inscription}{\chapter*{}\vfill\noindent}{}
+\fi
 
-\renewcommand\listoffigures{%
-    \if@twocolumn
-        \@restonecoltrue\onecolumn
-    \else
-        \@restonecolfalse
-    \fi
-    \chapter*{\listfigurename}%
-    \@starttoc{lof}%
-    \if@restonecol\twocolumn\fi
-    }
+% Agradecimento(s)
+\ifquali
+    \excludecomment{acknowledgements}
+\else
+    \newenvironment{acknowledgements}{\chapter*{\acknowledgementsname}\vfill\noindent}{}
+\fi
 
-\renewcommand\listoftables{%
-    \if@twocolumn
-        \@restonecoltrue\onecolumn
-    \else
-        \@restonecolfalse
-    \fi
-    \chapter*{\listtablename}%
-    \@starttoc{lot}%
-    \if@restonecol\twocolumn\fi
-    }
+% Epígrafe
+\ifquali
+    \excludecomment{epigraph}
+\else
+    \newenvironment{epigraph}{\chapter*{}\vfill\noindent}{}
+\fi
 
-\newcommand\listofinframes{%
-    \if@twocolumn
-        \@restonecoltrue\onecolumn
-    \else
-        \@restonecolfalse
-    \fi
-    \chapter*{\listinframename}%
-    \@starttoc{lom}%
-    \if@restonecol\twocolumn\fi
-    }
+% Resumo na língua vernácula
+\newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference\vspace{\doublespacing}}{\printkeys\vfill}
+\renewcommand\tableofcontents{\chapter*{\contentsname}\@starttoc{toc}\cleardoublepage}
 
-\newcommand\listofgraphs{%
-    \if@twocolumn
-        \@restonecoltrue\onecolumn
-    \else
-        \@restonecolfalse
-    \fi
-    \chapter*{\listgraphname}%
-    \@starttoc{lop}%
-    \if@restonecol\twocolumn\fi
-    }
+% Resumo em língua estrangeira
+% \newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference\vspace{\doublespacing}}{\printkeys\vfill}
+% \renewcommand\tableofcontents{\chapter*{\contentsname}\@starttoc{toc}\cleardoublepage}
 
-% ------------------------------ PÓS-TEXTUAL
+% Lista de ilustrações
+\ifquali
+    \renewcommand\listoffigures{}
+\else
+    \renewcommand\listoffigures{\chapter*{\listfigurename}\@starttoc{lof}}
+\fi
+
+% Lista de tabelas
+\ifquali
+    \renewcommand\listoftables{}
+\else
+    \renewcommand\listoftables{\chapter*{\listtablename}\@starttoc{lot}}
+\fi
+
+% Lista de abreviaturas e siglas
+% \ifquali
+%     ...
+% \else
+%     ...
+% \fi
+% lista de abreviaturas e siglas -- \glossarypackage...
+
+% Lista de símbolos
+% \ifquali
+%     ...
+% \else
+%     ...
+% \fi
+% lista de símbolos -- \glossarypackage...
+
+% Sumário
+\newcommand\listofgraphs{\chapter*{\listgraphname}\@starttoc{lop}}
+
+% NÃO SEI PRA QUÊ ISSO!!
+\newcommand\listofinframes{\chapter*{\listinframename}\@starttoc{lom}}
 
 
-% BIBLIOGRAPHY
+% ----- Pós-textual -----
+
+% Referências
+
+% Glossário
+% \ifquali
+%     ...
+% \else
+%     ...
+% \fi
+% glossário -- \glossarypackage...
+
+% Apêndice(s)
+% \ifquali
+%     ...
+% \else
+%     ...
+% \fi
+%   APÊNDICE A – Título do apêndice
+% \appendices
+
+% Anexo(s)
+% \ifquali
+%     ...
+% \else
+%     ...
+% \fi
+%   ANEXO A – Título do anexo
+% \annexes
+
+% Índice(s)
+% \ifquali
+%     ...
+% \else
+%     ...
+% \fi
+% \pacote adicional...
 
 
-% INDEX
+
+
+
+
+
+
 
 
 % ------------------------------ TEXTUAL
