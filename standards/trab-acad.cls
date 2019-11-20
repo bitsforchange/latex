@@ -4,7 +4,7 @@
 % ------------------------------ Class Identification
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{trab-acad}[2019/11/20 Standard LaTeX class for ABNT NBR 14724: Trabalhos academicos]
+\ProvidesClass{config/trab-acad}[2019/11/20 Standard LaTeX class for ABNT NBR 14724: Trabalhos academico]
 
 % ------------------------------ Preliminary declarations
 
@@ -102,8 +102,8 @@
 % }
 
 % Warnings and Erros.
-\newcommand{\qualiwarn}{
-    \ClassWarningNoLine{trab-acad}{The "quali" option is enabled. Non-mandatory elements will not be shown. If you want to show them, remove the "quali" option or set the option to "final".}
+\newcommand{\qualiwarn}{%
+    \@latex@warning@no@line{Class 'trab-acad' warning: The "quali" option is enabled. Non-mandatory elements will not be shown. If you want to show them, remove the "quali" option or set the option to "final"}
 }
 
 
