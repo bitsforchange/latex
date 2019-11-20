@@ -101,6 +101,11 @@
 %   \ClassInfo{ABNT-NBR-14724}{No local configuration file}%
 % }
 
+% Warnings and Erros.
+\newcommand{\qualiwarn}{
+    \ClassWarningNoLine{trab-acad}{The "quali" option is enabled. Non-mandatory elements will not be shown. If you want to show them, remove the "quali" option or set the option to "final".}
+}
+
 
 % Fonts.
 \DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
@@ -192,7 +197,7 @@
 \DeclareOption{french}{\PassOptionsToPackage{\CurrentOption}{babel}}
 \DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{babel}}
 % \DeclareOption{...}{\PassOptionsToPackage{\CurrentOption}{...}}
-\DeclareOption{quali}{\qualitrue}%\qualibool{1}}
+\DeclareOption{quali}{\qualitrue\qualiwarn}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 
 % opção padrão: [ABNT] = ABNT-NBR-14724 = só informativo para o usuário, deixar em branco tem o mesmo resultado.
@@ -277,7 +282,11 @@
 % German
 
 
+% SPECIFIC FIELDS OF THE STANDARD
 
+% ----- Pré-textual -----
+
+% Capa
 % \maketitle PARAMETERS (front cover)
 \newlength{\img}
 \setlength{\img}{2.2cm}
@@ -303,6 +312,7 @@
     \normalsize\cleardoublepage}
 }
 
+% Folha de rosto
 \newcommand{\folhaderosto}{\@ifstar{\UERJfolhaderostoB}{\UERJfolhaderostoA}}
 
 \newcommand{\UERJfolhaderostoA}{
@@ -374,102 +384,6 @@
     \cleardoublepage
   }
 }
-
-
-
-% REDESIGN SECTIONING COMMANDS
-\setcounter{secnumdepth}{3} % until subsubsection
-
-% CHAPTER
-\titlespacing{\chapter}{0pt}{0pt}{2\doublespacing}
-\titleformat
-    {\chapter}                          % title command
-    [hang]                              % shape
-    {\normalfont\normalsize\bfseries}   % format
-    {\thechapter\space}                 % label
-    {0pt}                               % sep
-    {\MakeUppercase{#1}}                % title name
-
-\titleformat
-    {name=\chapter,numberless}                  % title command
-    [hang]                                      % shape
-    {\normalfont\normalsize\bfseries\centering} % format
-    {}                                          % label
-    {0pt}                                       % sep
-    {\MakeUppercase{#1}}                        % title name
-
-% SECTION
-\titlespacing{\section}{0pt}{2\doublespacing}{2\doublespacing}
-\titleformat
-    {\section}                          % title command
-    [hang]                              % shape
-    {\normalfont\normalsize\bfseries}   % format
-    {\thesection\space}                 % label
-    {0pt}                               % sep
-    {#1}                                % title name
-
-\titleformat
-    {name=\section,numberless}          % title command
-    [hang]                              % shape
-    {\normalfont\normalsize\bfseries}   % format
-    {}                                  % label
-    {0pt}                               % sep
-    {#1}                                % title name
-
-% SUBSECTION
-\titlespacing{\subsection}{0pt}{2\doublespacing}{2\doublespacing}
-\titleformat
-    {\subsection}               % title command
-    [hang]                      % shape
-    {\normalfont\normalsize}    % format
-    {\thesubsection\space}      % label
-    {0pt}                       % sep
-    {\underline{#1}}            % title name
-
-\titleformat
-    {name=\subsection,numberless}   % title command
-    [hang]                          % shape
-    {\normalfont\normalsize}        % format
-    {}                              % label
-    {0pt}                           % sep
-    {\underline{#1}}                % title name
-
-% SUBSUBSECTION
-\titlespacing{\subsubsection}{0pt}{2\doublespacing}{2\doublespacing}
-\titleformat
-    {\subsubsection}                % title command
-    [hang]                          % shape
-    {\normalfont\normalsize\itshape}% format
-    {\thesubsubsection\space}       % label
-    {0pt}                           % sep
-    {#1}                            % title name
-
-\titleformat
-    {name=\subsubsection,numberless}% title command
-    [hang]                          % shape
-    {\normalfont\normalsize\itshape}% format
-    {}                              % label
-    {0pt}                           % sep
-    {#1}                            % title name
-
-% ANNEX
-\newcommand\annex{\par
-    \setcounter{chapter}{0}
-    \setcounter{section}{0}
-    \renewcommand\appendixname{Annex}
-    % \renewcommand\appendixpagename{Annexes}
-    % \renewcommand{\appendixtocname}{Annexes}
-    % \gdef\@chapapp{\annexname}
-    % \gdef\thechapter{\@Roman\c@chapter}
-    % \renewcommand{\theHchapter}{\annexname.\thechapter}
-    % \addappheadtotoc
-    }
-
-% SPECIFIC ENVIRONMENTS OF THE STANDARD
-
-% ----- Pré-textual -----
-
-% Folha de rosto
 
 % Errata
 \ifquali
@@ -573,6 +487,9 @@
 % lista de símbolos -- \glossarypackage...
 
 % Sumário
+% ????
+
+% NÃO SEI PRA QUÊ ISSO!!
 \newcommand\listofgraphs{\chapter*{\listgraphname}\@starttoc{lop}}
 
 % NÃO SEI PRA QUÊ ISSO!!
@@ -645,3 +562,91 @@
 % SOURCE
 
 
+
+% REDESIGN SECTIONING COMMANDS -- customizable fields
+\setcounter{secnumdepth}{3} % until subsubsection
+
+% CHAPTER
+\titlespacing{\chapter}{0pt}{0pt}{2\doublespacing}
+\titleformat
+    {\chapter}                          % title command
+    [hang]                              % shape
+    {\normalfont\normalsize\bfseries}   % format
+    {\thechapter\space}                 % label
+    {0pt}                               % sep
+    {\MakeUppercase{#1}}                % title name
+
+\titleformat
+    {name=\chapter,numberless}                  % title command
+    [hang]                                      % shape
+    {\normalfont\normalsize\bfseries\centering} % format
+    {}                                          % label
+    {0pt}                                       % sep
+    {\MakeUppercase{#1}}                        % title name
+
+% SECTION
+\titlespacing{\section}{0pt}{2\doublespacing}{2\doublespacing}
+\titleformat
+    {\section}                          % title command
+    [hang]                              % shape
+    {\normalfont\normalsize\bfseries}   % format
+    {\thesection\space}                 % label
+    {0pt}                               % sep
+    {#1}                                % title name
+
+\titleformat
+    {name=\section,numberless}          % title command
+    [hang]                              % shape
+    {\normalfont\normalsize\bfseries}   % format
+    {}                                  % label
+    {0pt}                               % sep
+    {#1}                                % title name
+
+% SUBSECTION
+\titlespacing{\subsection}{0pt}{2\doublespacing}{2\doublespacing}
+\titleformat
+    {\subsection}               % title command
+    [hang]                      % shape
+    {\normalfont\normalsize}    % format
+    {\thesubsection\space}      % label
+    {0pt}                       % sep
+    {\underline{#1}}            % title name
+
+\titleformat
+    {name=\subsection,numberless}   % title command
+    [hang]                          % shape
+    {\normalfont\normalsize}        % format
+    {}                              % label
+    {0pt}                           % sep
+    {\underline{#1}}                % title name
+
+% SUBSUBSECTION
+\titlespacing{\subsubsection}{0pt}{2\doublespacing}{2\doublespacing}
+\titleformat
+    {\subsubsection}                % title command
+    [hang]                          % shape
+    {\normalfont\normalsize\itshape}% format
+    {\thesubsubsection\space}       % label
+    {0pt}                           % sep
+    {#1}                            % title name
+
+\titleformat
+    {name=\subsubsection,numberless}% title command
+    [hang]                          % shape
+    {\normalfont\normalsize\itshape}% format
+    {}                              % label
+    {0pt}                           % sep
+    {#1}                            % title name
+
+% ANNEX
+\newcommand\annex{\par
+    \setcounter{chapter}{0}
+    \setcounter{section}{0}
+    \renewcommand\appendixname{Annex}
+    % \renewcommand\appendixpagename{Annexes}
+    % \renewcommand{\appendixtocname}{Annexes}
+    % \gdef\@chapapp{\annexname}
+    % \gdef\thechapter{\@Roman\c@chapter}
+    % \renewcommand{\theHchapter}{\annexname.\thechapter}
+    % \addappheadtotoc
+    }
