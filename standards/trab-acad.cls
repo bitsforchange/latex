@@ -72,7 +72,7 @@
     \newcommand{\coadvisoraffiliation}{#2}
 }
 
-\newcommand{\reference}[1]{\singlespacing\begin{flushleft}#1\end{flushleft}\vspace*{0.5\baselineskip}}
+\newcommand{\reference}[1]{\singlespacing\begin{flushleft}#1\end{flushleft}~\vspace*{\singlespacing}}
 \newcommand{\headertext}[1]{\reference{%
     \MakeUppercase{\authorfullnamesobrenome}, \authorfullnamenomeabvr\ \emph{\@title}. \@ano.% \UERJpaginas\ f. \UERJdocumento\ (\UERJgrau\ em \UERJcurso) -- \UERJunidade, \UERJunidadenome,
     % \UERJnome, \UERJlocal, \UERJano.%
@@ -80,7 +80,7 @@
 
 \newlength{\hanglength}
 \newcommand{\printkeys}{
-  \vspace{0.3\baselineskip}0.75\baselineskip \settowidth{\hanglength}{Keywords: }
+  \blanckline\medskip\settowidth{\hanglength}{Keywords: }
   \noindent Keywords: \parbox[t]{\textwidth-\hanglength}{
     % \raggedright \keyA\ \keyB\ \keyC\ \keyD\
   }
@@ -226,10 +226,10 @@
     % \renewcommand\bibname{References}
     \renewcommand{\acronymname}{List of abbreviations and acronyms}
     \renewcommand{\symbolname}{List of Symbols}
-}
-\newcommand{\erratumname}{Erratum}
-\newcommand{\inscriptionname}{Inscription}
-\newcommand{\acknowledgementsname}{Acknowledgements}
+} % ver se posso colocar os comandos de baixo dentro do pacote babel
+\newcommand{\errataname}{Erratum}
+\newcommand{\dedicatorianame}{Inscription}
+\newcommand{\agradecimentosname}{Acknowledgements}
 \newcommand{\listinframename}{List of Frames}
 \newcommand{\listgraphname}{List of Graphs}
 \newcommand{\inframename}{Frame}
@@ -255,9 +255,9 @@
     \renewcommand{\listgraphname}{Lista de gráficos}
     \renewcommand{\acronymname}{Lista de abreviaturas e siglas}
     \renewcommand{\symbolname}{Lista de símbolos}
-    \renewcommand{\erratumname}{Errata}
-    \renewcommand{\inscriptionname}{Dedicatória}
-    \renewcommand{\acknowledgementsname}{Agradecimentos}
+    \renewcommand{\errataname}{Errata}
+    \renewcommand{\dedicatorianame}{Dedicatória}
+    \renewcommand{\agradecimentosname}{Agradecimentos}
     \renewcommand{\figurename}{Figura}
     \renewcommand{\tablename}{Tabela}
     \renewcommand{\inframename}{Quadro}
@@ -268,7 +268,7 @@
     \renewcommand{\chaptername}{Capítulo}
     \renewcommand{\appendixname}{Apêndice}
     \renewcommand{\annexname}{Anexo}
-    \renewcommand{\abstractname}{Resumo}
+    \renewcommand{\resumoname}{Resumo}
     \renewcommand{\advisorlang}{Orientador} % incluir gênero
     \renewcommand{\coadvisorlang}{Coorientador} % incluir gênero
 }
@@ -387,9 +387,9 @@
 
 % Errata
 \ifquali
-    \excludecomment{erratum}
+    \excludecomment{errata}
 \else
-    \newenvironment{erratum}{\chapter*{\erratumname}}{\vfill}
+    \newenvironment{errata}{\chapter*{\errataname}}{\vfill}
 \fi
 
 % Folha de aprovação
@@ -429,32 +429,30 @@
 
 % Dedicatória(s)
 \ifquali
-    \excludecomment{inscription}
+    \excludecomment{dedicatoria}
 \else
-    \newenvironment{inscription}{\chapter*{}\vfill\noindent}{}
+    \newenvironment{dedicatoria}{\chapter*{}\vfill\noindent}{}
 \fi
 
 % Agradecimento(s)
 \ifquali
-    \excludecomment{acknowledgements}
+    \excludecomment{agradecimentos}
 \else
-    \newenvironment{acknowledgements}{\chapter*{\acknowledgementsname}\vfill\noindent}{}
+    \newenvironment{agradecimentos}{\chapter*{\agradecimentosname}\vfill\noindent}{}
 \fi
 
 % Epígrafe
 \ifquali
-    \excludecomment{epigraph}
+    \excludecomment{epigrafe}
 \else
-    \newenvironment{epigraph}{\chapter*{}\vfill\noindent}{}
+    \newenvironment{epigrafe}{\chapter*{}\vfill\noindent}{}
 \fi
 
 % Resumo na língua vernácula
-\newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference\vspace{\doublespacing}}{\printkeys\vfill}
-\renewcommand\tableofcontents{\chapter*{\contentsname}\@starttoc{toc}\cleardoublepage}
+\newenvironment{resumo}{\chapter*{\resumoname}\noindent\reference~\vspace{\singlespacing}}{\printchaves\vfill}
 
 % Resumo em língua estrangeira
-% \newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference\vspace{\doublespacing}}{\printkeys\vfill}
-% \renewcommand\tableofcontents{\chapter*{\contentsname}\@starttoc{toc}\cleardoublepage}
+\newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference~\vspace{\singlespacing}}{\printkeys\vfill}
 
 % Lista de ilustrações
 \ifquali
