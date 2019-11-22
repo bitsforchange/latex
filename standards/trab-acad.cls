@@ -72,22 +72,105 @@
     \newcommand{\coadvisoraffiliation}{#2}
 }
 
-\newcommand{\reference}[1]{\singlespacing\begin{flushleft}#1\end{flushleft}~\vspace*{\singlespacing}}
-\newcommand{\headertext}[1]{\reference{%
-    \MakeUppercase{\authorfullnamesobrenome}, \authorfullnamenomeabvr\ \emph{\@title}. \@ano.% \UERJpaginas\ f. \UERJdocumento\ (\UERJgrau\ em \UERJcurso) -- \UERJunidade, \UERJunidadenome,
-    % \UERJnome, \UERJlocal, \UERJano.%
-}}
-
-\newlength{\hanglength}
-\newcommand{\printkeys}{
-  \blanckline\medskip\settowidth{\hanglength}{Keywords: }
-  \noindent Keywords: \parbox[t]{\textwidth-\hanglength}{
-    % \raggedright \keyA\ \keyB\ \keyC\ \keyD\
+% ---
+% Tipo de trabalho
+% ---
+\newcommand{\titulacao}{}
+\newcommand{\grau}{}
+\newcommand{\documento}{}
+\newcommand{\posgraduacao}{}
+% ---
+\newcommand{\curso}[1]{
+  \newcommand{\Pcurso}{#1}
+}
+% ---
+\newcommand{\presented}{apresentada}
+% ---
+\newcommand{\Pgrau}[1]{
+  \ifthenelse{\equal{#1}{Mestre}}{
+    \renewcommand{\titulacao}{Mestre}
+    \renewcommand{\grau}{Mestrado}
+    \renewcommand{\documento}{Dissertação}
+    \renewcommand{\posgraduacao}
+      {Programa de Pós-Graduação em \curso}
+  }{\ifthenelse{\equal{#1}{Doutor}}{
+      \renewcommand{\titulacao}{Doutor}
+      \renewcommand{\grau}{Doutorado}
+      \renewcommand{\documento}{Tese}
+      \renewcommand{\posgraduacao}
+        {Programa de Pós-Graduação em \curso}
+    }{\ifthenelse{\equal{#1}{Bacharel}}{
+        \renewcommand{\titulacao}{Graduado em \curso}
+        \renewcommand{\grau}{Graduação}
+        \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+        \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+        \renewcommand{\presented}{apresentado}
+      }{\ifthenelse{\equal{#1}{Licenciado}}{
+          \renewcommand{\titulacao}{Graduado em \curso}
+          \renewcommand{\grau}{Graduação}
+          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+          \renewcommand{\presented}{apresentado}
+        }{
+          \renewcommand{\titulacao}{Graduado em \curso}
+          \renewcommand{\grau}{Graduação}
+          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+          \renewcommand{\presented}{apresentado}
+        }
+      }
+    }
   }
 }
 
+\newcommand{\paginas}{\pageref{LastPage}}
+
+\newcommand{\chaveA}{}
+\newcommand{\chaveB}{}
+\newcommand{\chaveC}{}
+\newcommand{\chaveD}{}
+\newcommand{\palavraschaves}[4]{
+    \renewcommand{\chaveA}{#1.}
+    \renewcommand{\chaveB}{#2.}
+    \renewcommand{\chaveC}{#3.}
+    \ifnotempty{#4}{\renewcommand{\chaveD}{#4.}}
+}
+
+\newcommand{\keyA}{}
+\newcommand{\keyB}{}
+\newcommand{\keyC}{}
+\newcommand{\keyD}{}
+\newcommand{\keywords}[4]{
+    \renewcommand{\keyA}{#1.}
+    \renewcommand{\keyB}{#2.}
+    \renewcommand{\keyC}{#3.}
+    \ifnotempty{#4}{\renewcommand{\keyD}{#4.}}
+}
+
+\providecommand{\reference}{}
+\newcommand{\headertext}[1]{%
+    \renewcommand{\reference}{\par\begin{flushleft}#1\end{flushleft}\vspace*{\singlespacing}}
+}
+
+\headertext{\MakeUppercase{\authorfullname}, \authorabvr\ \emph{\@title}. \ano. \paginas\ f. \documento\ (\grau\ em \Pcurso) -- \IESunit, \IESunitname, \IESname, \printcidade, \ano.}
+
+\newlength{\hanglength}
+\newcommand{\printkeys}{
+    \par\medskip\settowidth{\hanglength}{Keywords: }
+    \noindent Keywords: \parbox[t]{\textwidth-\hanglength}{
+        \raggedright \keyA\ \keyB\ \keyC\ \keyD\
+    }
+}
+
+\newcommand{\printchaves}{
+    \par\medskip\settowidth{\hanglength}{Palavras-chave: }
+    \noindent Palavras-chave: \parbox[t]{\textwidth-\hanglength}{
+        \raggedright \keyA\ \keyB\ \keyC\ \keyD\
+    }
+}
+
 % \newcommand{\marcadagua}[4] {%
-  \newcommand{\UERJmarcadagua}{marcadagua_uerj_cinza.png}%{#1}
+  \newcommand{\marcadagua}{marcadagua_uerj_cinza.png}%{#1}
   \newcommand{\imgscale}{1}%{#2}
   \newcommand{\imgposX}{0}%{#3}
   \newcommand{\imgposY}{0}%{#4}
@@ -241,6 +324,8 @@
 \newcommand{\advisorlang}{Advisor}
 \newcommand{\coadvisorlang}{Co-advisor}
 
+\newcommand{\resumoname}{Resumo}
+
 % \newcommand{\glossarionome}{Gloss\'ario}
 % \renewcommand*{\glossarysection}[2][]{\pretextualchapter{#2}}%
 
@@ -313,16 +398,16 @@
 }
 
 % Folha de rosto
-\newcommand{\folhaderosto}{\@ifstar{\UERJfolhaderostoB}{\UERJfolhaderostoA}}
+\newcommand{\folhaderosto}{\@ifstar{\folhaderostoB}{\folhaderostoA}}
 
-\newcommand{\UERJfolhaderostoA}{
+\newcommand{\folhaderostoA}{
   \thispagestyle{empty}%
   {
     \centering
     \begin{onehalfspace}
       \AddToShipoutPicture*{
         \put(\imgposX,\imgposY){
-          \includegraphics[scale=\imgscale]{\UERJmarcadagua}
+          \includegraphics[scale=\imgscale]{\marcadagua}
         }
       } 
       \authorfullname\par
@@ -332,29 +417,29 @@
       \vspace{.8cm}
       \hspace{.49\textwidth}
       \begin{minipage}{.5\textwidth}
-        %  \UERJpreambulo
+        %  \preambulo
        \end{minipage}%
        \vfill\vfill\vfill\vfill\vfill
-    %   \UERJsurpevisor: \UERJorientador\par
-    %   \ifnotempty{\UERJcoorientador}{
-        %  {\UERJcosurpevisor: \UERJcoorientador}\par
+    %   \surpevisor: \orientador\par
+    %   \ifnotempty{\coorientador}{
+        %  {\cosurpevisor: \coorientador}\par
     %   }
       \vfill\vfill\vfill
       \printcidade\\[0.1\baselineskip]
     \end{onehalfspace}
-    \UERJdata
+    \data
     \cleardoublepage
   }
 }
 
-\newcommand{\UERJfolhaderostoB}{
+\newcommand{\folhaderostoB}{
   \thispagestyle{empty}%
   {
     \centering
     \begin{onehalfspace}
       \AddToShipoutPicture*{
         \put(\imgposX,\imgposY){
-          \includegraphics[scale=\imgscale]{\UERJmarcadagua}
+          \includegraphics[scale=\imgscale]{\marcadagua}
         }
       } 
       \authorfullname\par
@@ -364,7 +449,7 @@
       \vspace{.8cm}
       \hspace{.49\textwidth}
       \begin{minipage}{.5\textwidth}
-         \UERJpreambulo
+         \preambulo
        \end{minipage}%
        \vfill\vfill\vfill\vfill\vfill
       \begin{center}
@@ -372,15 +457,15 @@
         \vspace{1cm}
         \hrule
         \vspace{0.4cm}
-        % \UERJsurpevisor: \UERJorientador\par
+        % \surpevisor: \orientador\par
       \end{center}
-    %   \ifnotempty{\UERJcoorientador}{
-    %      {\UERJcosurpevisor: \UERJcoorientador}\par
+    %   \ifnotempty{\coorientador}{
+    %      {\cosurpevisor: \coorientador}\par
     %   }
       \vfill\vfill\vfill
-      \UERJlocal\\[0.1\baselineskip]
+      \printcidade\\[0.1\baselineskip]
     \end{onehalfspace}
-    \UERJdata
+    \data
     \cleardoublepage
   }
 }
@@ -404,7 +489,7 @@
         }
         \noindent\hspace{.49\textwidth}
         \begin{minipage}{.5\textwidth}
-        %   \UERJpreambulo
+        %   \preambulo
         \end{minipage}
         
         \vspace{1.3cm}
@@ -414,7 +499,7 @@
         \signature{\advisorname\ (\advisoropt)}{\advisoraffiliation}
         % \ifnotempty{\coadvisor}{
         %     \signature{\coadvisorname (\coadvisoropt)}{\coadvisoraffiliation}
-        % }{\UERJcoorientadorinstituicao}
+        % }{\coorientadorinstituicao}
         % }
     \end{onehalfspace}
 }
@@ -449,10 +534,10 @@
 \fi
 
 % Resumo na língua vernácula
-\newenvironment{resumo}{\chapter*{\resumoname}\noindent\reference~\vspace{\singlespacing}}{\printchaves\vfill}
+\newenvironment{resumo}{\chapter*{\resumoname}\noindent\reference}{\printchaves\vfill}
 
 % Resumo em língua estrangeira
-\newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference~\vspace{\singlespacing}}{\printkeys\vfill}
+\newenvironment{abstract}{\chapter*{\abstractname}\noindent\reference}{\printkeys\vfill}
 
 % Lista de ilustrações
 \ifquali
