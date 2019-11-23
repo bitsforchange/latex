@@ -6,9 +6,18 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{config/trab-acad}[2019/11/20 Standard LaTeX class for ABNT NBR 14724: Trabalhos academico]
 
+% Onde deve entrar isso?
+% The configuration file, used for passing options. (the way to talk with .sty file) -- I don't know if it has to stay here.
+% \InputIfFileExists{????}{%
+%   \ClassInfo{ABNT-NBR-14724}{Using local configuration file}%
+% }{%
+%   \ClassInfo{ABNT-NBR-14724}{No local configuration file}%
+% }
+
+
 % ------------------------------ Preliminary declarations
 
-% Global variables.
+% GLOBAL VARIABLES
 \newcommand{\ifnotempty}[2]{\ifthenelse{\not\equal{#1}{}}{#2}{}}
 
 \newif\ifquali
@@ -20,7 +29,6 @@
     % {\begingroup\par\hspace{0.75\baselineskip}\parbox[t]{12.25cm}{\singlespacing{\vspace*{0.8cm}\rule{12.25cm}{1pt}\par\nopagebreak{#1\\#2}\par}}\endgroup}
 }
 
-
 % \newcommand{check}[2]
 % {
 %     \IfFileExists{#1.sty}
@@ -28,124 +36,7 @@
 %         {\ClassError{trab-acad}{Missing package {#1}.}{This class requires the package \textit{#1} to work. Please make it available on the same directory of this class.}}
 % }
 
-\providecommand{\logo}{}
-\newcommand{\logoimg}[1]{\ifnotempty{#1}{\renewcommand{\logo}{#1}}}
-
-\providecommand{\IESdata}{}
-\newcommand{\IES}[4]{
-  \newcommand{\IESname}{#1}
-  \newcommand{\IEScenter}{#2}
-  \newcommand{\IESunit}{#3}
-  \newcommand{\IESunitname}{\ifnotempty{#4}{#4}} % não sei que merda é essa
-
-  \renewcommand{\IESdata}{\textbf{\IESname}\par\IEScenter\par\IESunit{\IESunitname}}
-}
-
-\providecommand{\authorfullname}{}
-\renewcommand{\author}[3]{
-  \newcommand{\authorname}{#1}
-  \newcommand{\authorsurname}{#2}
-  \newcommand{\authorabvr}{#3}
-  \renewcommand{\authorfullname}{#1 #2}
-}
-
-\providecommand{\printcidade}{}
-\newcommand{\cidade}[1]{\renewcommand{\printcidade}{#1}}
-
-\providecommand{\printdata}{}
-\newcommand{\data}[3]{
-    \newcommand{\dia}{\relax#1}
-    \newcommand{\mes}{\relax#2}
-    \newcommand{\ano}{\relax#3}
-    \renewcommand{\printdata}{\ano}
-}
-
-\newcommand{\advisor}[2]{
-    \newcommand{\advisoropt}{\advisorlang}
-    \newcommand{\advisorname}{#1}
-    \newcommand{\advisoraffiliation}{#2}
-}
-
-\newcommand{\coadvisor}[2]{
-    \newcommand{\coadvisoropt}{\coadvisorlang}
-    \newcommand{\coadvisorname}{#1}
-    \newcommand{\coadvisoraffiliation}{#2}
-}
-
-% ---
-% Tipo de trabalho
-% ---
-\newcommand{\titulacao}{}
-\newcommand{\grau}{}
-\newcommand{\documento}{}
-\newcommand{\posgraduacao}{}
-% ---
-\newcommand{\curso}[1]{
-  \newcommand{\Pcurso}{#1}
-}
-% ---
-\newcommand{\presented}{apresentada}
-% ---
-\newcommand{\Pgrau}[1]{
-  \ifthenelse{\equal{#1}{Mestre}}{
-    \renewcommand{\titulacao}{Mestre}
-    \renewcommand{\grau}{Mestrado}
-    \renewcommand{\documento}{Dissertação}
-    \renewcommand{\posgraduacao}
-      {Programa de Pós-Graduação em \curso}
-  }{\ifthenelse{\equal{#1}{Doutor}}{
-      \renewcommand{\titulacao}{Doutor}
-      \renewcommand{\grau}{Doutorado}
-      \renewcommand{\documento}{Tese}
-      \renewcommand{\posgraduacao}
-        {Programa de Pós-Graduação em \curso}
-    }{\ifthenelse{\equal{#1}{Bacharel}}{
-        \renewcommand{\titulacao}{Graduado em \curso}
-        \renewcommand{\grau}{Graduação}
-        \renewcommand{\documento}{Trabalho de Conclusão de Curso}
-        \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
-        \renewcommand{\presented}{apresentado}
-      }{\ifthenelse{\equal{#1}{Licenciado}}{
-          \renewcommand{\titulacao}{Graduado em \curso}
-          \renewcommand{\grau}{Graduação}
-          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
-          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
-          \renewcommand{\presented}{apresentado}
-        }{
-          \renewcommand{\titulacao}{Graduado em \curso}
-          \renewcommand{\grau}{Graduação}
-          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
-          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
-          \renewcommand{\presented}{apresentado}
-        }
-      }
-    }
-  }
-}
-
 \newcommand{\paginas}{\pageref{LastPage}}
-
-\newcommand{\chaveA}{}
-\newcommand{\chaveB}{}
-\newcommand{\chaveC}{}
-\newcommand{\chaveD}{}
-\newcommand{\palavraschaves}[4]{
-    \renewcommand{\chaveA}{#1.}
-    \renewcommand{\chaveB}{#2.}
-    \renewcommand{\chaveC}{#3.}
-    \ifnotempty{#4}{\renewcommand{\chaveD}{#4.}}
-}
-
-\newcommand{\keyA}{}
-\newcommand{\keyB}{}
-\newcommand{\keyC}{}
-\newcommand{\keyD}{}
-\newcommand{\keywords}[4]{
-    \renewcommand{\keyA}{#1.}
-    \renewcommand{\keyB}{#2.}
-    \renewcommand{\keyC}{#3.}
-    \ifnotempty{#4}{\renewcommand{\keyD}{#4.}}
-}
 
 \providecommand{\reference}{}
 \newcommand{\headertext}[1]{%
@@ -176,21 +67,13 @@
   \newcommand{\imgposY}{0}%{#4}
 % }
 
-
-% The configuration file, used for passing options. (the way to talk with .sty file) -- I don't know if it has to stay here.
-% \InputIfFileExists{????}{%
-%   \ClassInfo{ABNT-NBR-14724}{Using local configuration file}%
-% }{%
-%   \ClassInfo{ABNT-NBR-14724}{No local configuration file}%
-% }
-
 % Warnings and Erros.
 \newcommand{\qualiwarn}{%
     \@latex@warning@no@line{Class 'trab-acad' warning: The "quali" option is enabled. Non-mandatory elements will not be shown. If you want to show them, remove the "quali" option or set the option to "final"}
 }
 
 
-% Fonts.
+% Fonts. (Isso já não está definido em book?)
 \DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
 \DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
 \DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
@@ -200,7 +83,7 @@
 \DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
 \DeclareRobustCommand*\cal{\@fontswitch\relax\mathcal}
 \DeclareRobustCommand*\mit{\@fontswitch\relax\mathnormal}
-% \renewcommand{\normalsize}{\fontsize{9}{10}\selectfont} -- to be defined -- preciso disso pq? não define na classe do livro que é 12?
+% \renewcommand{\normalsize}{\fontsize{9}{10}\selectfont} -- to be defined -- preciso disso pq? não está definido na classe do livro que é 12?
 
 % Load the book class (default document size and structure).
 \LoadClass[a4paper,12pt,oneside,onecolumn,openany]{book}
@@ -302,7 +185,6 @@
 \renewcommand{\singlespacing}{0.5\baselineskip} % espaço simples
 \renewcommand{\doublespacing}{\baselineskip} % espaço duplo
 
-
 % LANGUAGE SETUP
 % English is the default
 \addto\captionsamerican{
@@ -367,6 +249,124 @@
 % German
 
 
+% NEW COMMANDS
+\providecommand{\plogo}{}
+\newcommand{\logo}[1]{\ifnotempty{#1}{\renewcommand{\plogo}{#1}}}
+
+\providecommand{\IESdata}{}
+\newcommand{\IES}[4]{
+  \newcommand{\IESname}{#1}
+  \newcommand{\IEScenter}{#2}
+  \newcommand{\IESunit}{#3}
+  \newcommand{\IESunitname}{\ifnotempty{#4}{#4}} % não sei que merda é essa
+
+  \renewcommand{\IESdata}{\textbf{\IESname}\par\IEScenter\par\IESunit{\IESunitname}}
+}
+
+\providecommand{\authorfullname}{}
+\renewcommand{\author}[3]{
+  \newcommand{\authorname}{#1}
+  \newcommand{\authorsurname}{#2}
+  \newcommand{\authorabvr}{#3}
+  \renewcommand{\authorfullname}{#1 #2}
+}
+
+\providecommand{\printcidade}{}
+\newcommand{\cidade}[1]{\renewcommand{\printcidade}{#1}}
+
+\providecommand{\printdata}{}
+\newcommand{\data}[3]{
+    \newcommand{\dia}{\relax#1}
+    \newcommand{\mes}{\relax#2}
+    \newcommand{\ano}{\relax#3}
+    \renewcommand{\printdata}{\ano}
+}
+
+\newcommand{\advisor}[2]{
+    \newcommand{\advisoropt}{\advisorlang}
+    \newcommand{\advisorname}{#1}
+    \newcommand{\advisoraffiliation}{#2}
+}
+
+\newcommand{\coadvisor}[2]{
+    \newcommand{\coadvisoropt}{\coadvisorlang}
+    \newcommand{\coadvisorname}{#1}
+    \newcommand{\coadvisoraffiliation}{#2}
+}
+
+% ---
+% Tipo de trabalho
+% ---
+\newcommand{\titulacao}{}
+\newcommand{\grau}{}
+\newcommand{\documento}{}
+\newcommand{\posgraduacao}{}
+% ---
+\newcommand{\curso}[1]{
+  \newcommand{\Pcurso}{#1}
+}
+% ---
+\newcommand{\presented}{apresentada}
+% ---
+\newcommand{\Pgrau}[1]{
+  \ifthenelse{\equal{#1}{Mestre}}{
+    \renewcommand{\titulacao}{Mestre}
+    \renewcommand{\grau}{Mestrado}
+    \renewcommand{\documento}{Dissertação}
+    \renewcommand{\posgraduacao}
+      {Programa de Pós-Graduação em \curso}
+  }{\ifthenelse{\equal{#1}{Doutor}}{
+      \renewcommand{\titulacao}{Doutor}
+      \renewcommand{\grau}{Doutorado}
+      \renewcommand{\documento}{Tese}
+      \renewcommand{\posgraduacao}
+        {Programa de Pós-Graduação em \curso}
+    }{\ifthenelse{\equal{#1}{Bacharel}}{
+        \renewcommand{\titulacao}{Graduado em \curso}
+        \renewcommand{\grau}{Graduação}
+        \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+        \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+        \renewcommand{\presented}{apresentado}
+      }{\ifthenelse{\equal{#1}{Licenciado}}{
+          \renewcommand{\titulacao}{Graduado em \curso}
+          \renewcommand{\grau}{Graduação}
+          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+          \renewcommand{\presented}{apresentado}
+        }{
+          \renewcommand{\titulacao}{Graduado em \curso}
+          \renewcommand{\grau}{Graduação}
+          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+          \renewcommand{\presented}{apresentado}
+        }
+      }
+    }
+  }
+}
+
+\newcommand{\chaveA}{}
+\newcommand{\chaveB}{}
+\newcommand{\chaveC}{}
+\newcommand{\chaveD}{}
+\newcommand{\palavraschaves}[4]{
+    \renewcommand{\chaveA}{#1.}
+    \renewcommand{\chaveB}{#2.}
+    \renewcommand{\chaveC}{#3.}
+    \ifnotempty{#4}{\renewcommand{\chaveD}{#4.}}
+}
+
+\newcommand{\keyA}{}
+\newcommand{\keyB}{}
+\newcommand{\keyC}{}
+\newcommand{\keyD}{}
+\newcommand{\keywords}[4]{
+    \renewcommand{\keyA}{#1.}
+    \renewcommand{\keyB}{#2.}
+    \renewcommand{\keyC}{#3.}
+    \ifnotempty{#4}{\renewcommand{\keyD}{#4.}}
+}
+
 % SPECIFIC FIELDS OF THE STANDARD
 
 % ----- Pré-textual -----
@@ -379,9 +379,9 @@
     \thispagestyle{empty}
     {\centering\large
     \begin{onehalfspace}
-        {\ifthenelse{\equal{\logo}{}}
+        {\ifthenelse{\equal{\plogo}{}}
             {\parbox[c]{\textwidth}{\centering{\large\IESdata\par}}}
-            {\parbox[c]{\img}{\includegraphics[width=\img]{\logo}}
+            {\parbox[c]{\img}{\includegraphics[width=\img]{\plogo}}
             \parbox[c]{\textwidth-\img-2mm}{\centering{\large\IESdata\par}}}
         }
         \hfill
