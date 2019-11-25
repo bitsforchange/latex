@@ -92,7 +92,7 @@
 \LoadClass[a4paper,12pt,oneside,onecolumn,openany]{book}
 
 % Required Packages.
-\RequirePackage{babel}
+\RequirePackage[american]{babel}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{geometry}                   % page layout
@@ -105,8 +105,8 @@
 \RequirePackage{indentfirst}                % to indent the first paragraphs
 \RequirePackage[explicit]{titlesec}         % to easily custom chapter and sections styles
 \RequirePackage[inline]{enumitem}           % for enumerate, itemize lists and so on
-\RequirePackage[symbols]{glossaries-extra}  % to affordable handle with glossary, acronyms and symbols
-\RequirePackage{makeidx}                    % for index -- to be reviewed its requirement
+\RequirePackage[acronym, symbols, index, nonumberlist, nopostdot, automake, style=indexgroup]{glossaries-extra}  % to affordable handle with glossary, acronyms and symbols
+% \RequirePackage{makeidx}                    % for index -- to be reviewed its requirement
 \RequirePackage[normalem]{ulem}             % for underlining
 \RequirePackage{comment}                    % to comment block of texts
 \RequirePackage{pdfpages}                   
@@ -188,6 +188,23 @@
 \renewcommand{\singlespacing}{0.5\baselineskip} % espaço simples
 \renewcommand{\doublespacing}{\baselineskip} % espaço duplo
 
+% pre-textual pages
+\renewcommand{\frontmatter}{%
+    \pagestyle{empty}% isso já não esta definido por capítulo?
+    % tipo de numeração da página?
+}
+
+% textual pages
+\renewcommand{\mainmatter}{%
+    \pagestyle{plain}% isso já não esta definido por capítulo?
+    % tipo de numeração da página?
+}
+
+% pos-textual pages
+\renewcommand{\backmatter}{%
+    % tipo de numeração da página?
+}
+
 % LANGUAGE SETUP
 % Although Portuguese (BR) is the document default language,
 % English is used as default for the configuration.
@@ -196,7 +213,6 @@
 \addto\captionsamerican{
     \renewcommand\bibname{References} % The default is 'Bibliography'
     \renewcommand{\acronymname}{List of abbreviations and acronyms}
-    \renewcommand{\symbolname}{List of Symbols}
 }
 \newcommand{\advisorlang}{Advisor}
 \newcommand{\coadvisorlang}{Co-advisor}
@@ -208,6 +224,7 @@
 \newcommand{\epigrafename}{Epigraph}
 \newcommand{\resumoname}{Resumo} % main language
 \newcommand{\abstractname}{Abstract} % second language
+\newcommand{\symbolsname}{List of Symbols}
 \newcommand{\listinframename}{List of Frames} % pra quê isso?
 \newcommand{\listgraphname}{List of Graphs} % pra quê isso?
 \newcommand{\inframename}{Frame} % pra quê isso?
@@ -237,7 +254,7 @@
     \renewcommand{\listinframename}{Lista de quadros}
     \renewcommand{\listgraphname}{Lista de gráficos}
     \renewcommand{\acronymname}{Lista de abreviaturas e siglas}
-    \renewcommand{\symbolname}{Lista de símbolos}
+    \renewcommand{\symbolsname}{Lista de símbolos}
     \renewcommand{\errataname}{Errata}
     \renewcommand{\dedicatorianame}{Dedicatória}
     \renewcommand{\agradecimentosname}{Agradecimentos}
@@ -270,6 +287,9 @@
 
 
 % NEW COMMANDS
+\newcommand{\printacronym}{\printglossary[type=acronym]}
+\renewcommand{\printsymbols}{\printglossary[type=symbols, title=\symbolsname]}
+
 \providecommand{\plogo}{}
 \newcommand{\logo}[1]{\ifnotempty{#1}{\renewcommand{\plogo}{#1}}}
 
