@@ -23,9 +23,12 @@
 \newif\ifquali
 \qualifalse
 
+\newcounter{numberlesschapter}
+
 \newcommand{\signature}[2]{%
     % \@ifstar%
-    {\par\hspace{1cm}\parbox[t]{12.25cm}{\singlespacing{\nopagebreak{#1\\#2}\par\vspace*{0.8cm}}}}%
+    {\par\hspace{1cm}\parbox[t]{12.25cm}{%\singlespacing
+        {\nopagebreak{#1\\#2}\par\vspace*{0.8cm}}}}%
     % {\begingroup\par\hspace{0.75\baselineskip}\parbox[t]{12.25cm}{\singlespacing{\vspace*{0.8cm}\rule{12.25cm}{1pt}\par\nopagebreak{#1\\#2}\par}}\endgroup}
 }
 
@@ -117,7 +120,7 @@
 % \setlength{\mathindent}{0pt}    % ainda preciso disso?
 \RequirePackage{graphicx}                   % to insert figures and graphs
 \graphicspath{{img/}}
-\RequirePackage{calc}
+\RequirePackage{calc}               % Pacote que permite realizar operacoes matematicas no codigo TeX
 \RequirePackage{pifont}
 \RequirePackage{keyval}
 \RequirePackage{array}
@@ -175,10 +178,10 @@
 
 %  PAGE STYLE
 \geometry{top=3cm, bottom=2cm, left=3cm, right=2cm}
-% \setlength{\textwidth}{17.5cm} -- to be defined
-% \setlength{\textheight}{22cm} -- to be defined
+% \setlength{\textwidth}{17.5cm} -- to be defined % pq isso?
+% \setlength{\textheight}{22cm} -- to be defined % pq isso?
 
-\setlength{\parindent}{1.25cm} % 
+\setlength{\parindent}{1.25cm}
 \setlength{\parskip}{0cm}
 \setlength{\parsep}{0cm}
 \setlength{\itemsep}{0cm}
@@ -186,30 +189,43 @@
 \renewcommand{\doublespacing}{\baselineskip} % espaço duplo
 
 % LANGUAGE SETUP
-% English is the default
+% Although Portuguese (BR) is the document default language,
+% English is used as default for the configuration.
+% Nonetheless, the main document can be other than Portuguese (BR).
+
 \addto\captionsamerican{
-    % \renewcommand\bibname{References}
+    \renewcommand\bibname{References} % The default is 'Bibliography'
     \renewcommand{\acronymname}{List of abbreviations and acronyms}
     \renewcommand{\symbolname}{List of Symbols}
-} % ver se posso colocar os comandos de baixo dentro do pacote babel
-\newcommand{\errataname}{Erratum}
-\newcommand{\dedicatorianame}{Inscription}
-\newcommand{\agradecimentosname}{Acknowledgements}
-\newcommand{\listinframename}{List of Frames}
-\newcommand{\listgraphname}{List of Graphs}
-\newcommand{\inframename}{Frame}
-\newcommand{\graphname}{Graph}
-\newcommand{\annexname}{Annex}
-\newcommand{\abstractname}{Abstract}
-\newcommand{\legendname}{Legend}
-\newcommand{\sourcename}{Source}
+}
 \newcommand{\advisorlang}{Advisor}
 \newcommand{\coadvisorlang}{Co-advisor}
+\newcommand{\folhaderostoname}{Title Page}
+\newcommand{\errataname}{Erratum}
+\newcommand{\folhadeaprovacaoname}{Approval Sheet}
+\newcommand{\dedicatorianame}{Inscription}
+\newcommand{\agradecimentosname}{Acknowledgements}
+\newcommand{\epigrafename}{Epigraph}
+\newcommand{\resumoname}{Resumo} % main language
+\newcommand{\abstractname}{Abstract} % second language
+\newcommand{\listinframename}{List of Frames} % pra quê isso?
+\newcommand{\listgraphname}{List of Graphs} % pra quê isso?
+\newcommand{\inframename}{Frame} % pra quê isso?
+\newcommand{\graphname}{Graph} % pra quê isso?
 
-\newcommand{\resumoname}{Resumo}
+% \newcommand{\glossarioname}{Gloss\'ario}
+\newcommand{\annexname}{Annex}
+% Índices?
+\newcommand{\legendname}{Legend}
+\newcommand{\sourcename}{Source} % acho q já existe por padrão
+\newcommand{\notaname}{Note} % pra quê isso?
 
-% \newcommand{\glossarionome}{Gloss\'ario}
-% \renewcommand*{\glossarysection}[2][]{\pretextualchapter{#2}}%
+% Seções sem título: (mas definições necessárias para os 'bookmarks')
+% - Folha de rosto (verso: Catálogo)
+% - Folha de aprovação
+% - Dedicatória
+% - Epígrafe
+
 
 % Brazilian Portuguese
 \addto\captionsbrazil{%
@@ -242,11 +258,15 @@
 
 % Spanish
 
+
 % French
+
 
 % Italian
 
+
 % German
+
 
 
 % NEW COMMANDS
@@ -255,20 +275,20 @@
 
 \providecommand{\IESdata}{}
 \newcommand{\IES}[4]{
-  \newcommand{\IESname}{#1}
-  \newcommand{\IEScenter}{#2}
-  \newcommand{\IESunit}{#3}
-  \newcommand{\IESunitname}{\ifnotempty{#4}{#4}} % não sei que merda é essa
-
-  \renewcommand{\IESdata}{\textbf{\IESname}\par\IEScenter\par\IESunit{\IESunitname}}
+    \newcommand{\IESname}{#1}
+    \newcommand{\IEScenter}{#2}
+    \newcommand{\IESunit}{#3}
+    \newcommand{\IESunitname}{\ifnotempty{#4}{#4}} % não sei que merda é essa
+    
+    \renewcommand{\IESdata}{\textbf{\IESname}\par\IEScenter\par\IESunit{\IESunitname}}
 }
 
 \providecommand{\authorfullname}{}
 \renewcommand{\author}[3]{
-  \newcommand{\authorname}{#1}
-  \newcommand{\authorsurname}{#2}
-  \newcommand{\authorabvr}{#3}
-  \renewcommand{\authorfullname}{#1 #2}
+    \newcommand{\authorname}{#1}
+    \newcommand{\authorsurname}{#2}
+    \newcommand{\authorabvr}{#3}
+    \renewcommand{\authorfullname}{#1 #2}
 }
 
 \providecommand{\printcidade}{}
@@ -303,46 +323,44 @@
 \newcommand{\posgraduacao}{}
 % ---
 \newcommand{\curso}[1]{
-  \newcommand{\Pcurso}{#1}
+    \newcommand{\Pcurso}{#1}
 }
 % ---
 \newcommand{\presented}{apresentada}
 % ---
 \newcommand{\Pgrau}[1]{
-  \ifthenelse{\equal{#1}{Mestre}}{
-    \renewcommand{\titulacao}{Mestre}
-    \renewcommand{\grau}{Mestrado}
-    \renewcommand{\documento}{Dissertação}
-    \renewcommand{\posgraduacao}
-      {Programa de Pós-Graduação em \curso}
-  }{\ifthenelse{\equal{#1}{Doutor}}{
-      \renewcommand{\titulacao}{Doutor}
-      \renewcommand{\grau}{Doutorado}
-      \renewcommand{\documento}{Tese}
-      \renewcommand{\posgraduacao}
-        {Programa de Pós-Graduação em \curso}
-    }{\ifthenelse{\equal{#1}{Bacharel}}{
-        \renewcommand{\titulacao}{Graduado em \curso}
-        \renewcommand{\grau}{Graduação}
-        \renewcommand{\documento}{Trabalho de Conclusão de Curso}
-        \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
-        \renewcommand{\presented}{apresentado}
-      }{\ifthenelse{\equal{#1}{Licenciado}}{
-          \renewcommand{\titulacao}{Graduado em \curso}
-          \renewcommand{\grau}{Graduação}
-          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
-          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
-          \renewcommand{\presented}{apresentado}
-        }{
-          \renewcommand{\titulacao}{Graduado em \curso}
-          \renewcommand{\grau}{Graduação}
-          \renewcommand{\documento}{Trabalho de Conclusão de Curso}
-          \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
-          \renewcommand{\presented}{apresentado}
+    \ifthenelse{\equal{#1}{Mestre}}{
+        \renewcommand{\titulacao}{Mestre}
+        \renewcommand{\grau}{Mestrado}
+        \renewcommand{\documento}{Dissertação}
+        \renewcommand{\posgraduacao}{Programa de Pós-Graduação em \curso}
+        }{\ifthenelse{\equal{#1}{Doutor}}{
+            \renewcommand{\titulacao}{Doutor}
+            \renewcommand{\grau}{Doutorado}
+            \renewcommand{\documento}{Tese}
+            \renewcommand{\posgraduacao}{Programa de Pós-Graduação em \curso}
+            }{\ifthenelse{\equal{#1}{Bacharel}}{
+                \renewcommand{\titulacao}{Graduado em \curso}
+                \renewcommand{\grau}{Graduação}
+                \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+                \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+                \renewcommand{\presented}{apresentado}
+                }{\ifthenelse{\equal{#1}{Licenciado}}{
+                    \renewcommand{\titulacao}{Graduado em \curso}
+                    \renewcommand{\grau}{Graduação}
+                    \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+                    \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+                    \renewcommand{\presented}{apresentado}
+                }{
+                    \renewcommand{\titulacao}{Graduado em \curso}
+                    \renewcommand{\grau}{Graduação}
+                    \renewcommand{\documento}{Trabalho de Conclusão de Curso}
+                    \renewcommand{\posgraduacao}{\IESunit{\IESunitname}}
+                    \renewcommand{\presented}{apresentado}
+                }
+            }
         }
-      }
     }
-  }
 }
 
 \newcommand{\chaveA}{}
@@ -398,38 +416,35 @@
 }
 
 % Folha de rosto
-\newcommand{\folhaderosto}{\@ifstar{\folhaderostoB}{\folhaderostoA}}
+\newcommand{\folhaderosto}{yyyyyyy}%\@ifstar{\folhaderostoB}{\folhaderostoA}}
 
 \newcommand{\folhaderostoA}{
-  \thispagestyle{empty}%
-  {
-    \centering
+    \thispagestyle{empty}%
+    {\centering
     \begin{onehalfspace}
-      \AddToShipoutPicture*{
-        \put(\imgposX,\imgposY){
-          \includegraphics[scale=\imgscale]{\marcadagua}
+        \AddToShipoutPicture*{
+            \put(\imgposX,\imgposY){
+                \includegraphics[scale=\imgscale]{\marcadagua}
+            }
         }
-      } 
-      \authorfullname\par
-      \vfill\vfill
-      {\bfseries\@title}\par
-      \vfill\vfill\vfill
-      \vspace{.8cm}
-      \hspace{.49\textwidth}
-      \begin{minipage}{.5\textwidth}
-        %  \preambulo
-       \end{minipage}%
-       \vfill\vfill\vfill\vfill\vfill
-    %   \surpevisor: \orientador\par
-    %   \ifnotempty{\coorientador}{
-        %  {\cosurpevisor: \coorientador}\par
-    %   }
-      \vfill\vfill\vfill
-      \printcidade\\[0.1\baselineskip]
+        \authorfullname\par
+        \vfill\vfill
+        {\bfseries\@title}\par
+        \vfill\vfill\vfill
+        \vspace{.8cm}
+        \hspace{.49\textwidth}
+        \begin{minipage}{.5\textwidth}
+            aaaaaaaa%\preambulo
+        \end{minipage}%
+        \vfill\vfill\vfill\vfill\vfill
+        % \advisoropt: \advisor\par
+        % \ifnotempty{\coadvisor}{{\coadvisoropt: \coadvisor}\par}
+        \vfill\vfill\vfill
+        \printcidade\\[0.1\baselineskip]
     \end{onehalfspace}
     \data
     \cleardoublepage
-  }
+    }
 }
 
 \newcommand{\folhaderostoB}{
@@ -478,7 +493,8 @@
 \fi
 
 % Folha de aprovação
-\newenvironment{folhadeaprovacao}{\thispagestyle{empty}%
+\newenvironment{folhadeaprovacao}{%
+    \thispagestyle{empty}%
     \begin{onehalfspace}
         {
             \centering
@@ -489,7 +505,7 @@
         }
         \noindent\hspace{.49\textwidth}
         \begin{minipage}{.5\textwidth}
-        %   \preambulo
+        gggggggg%   \preambulo
         \end{minipage}
         
         \vspace{1.3cm}
@@ -497,10 +513,7 @@
         \noindent Aprovada em \dia\ de \mes\ de \ano.\par
         \noindent Banca Examinadora:\\[-1.5\baselineskip]
         \signature{\advisorname\ (\advisoropt)}{\advisoraffiliation}
-        % \ifnotempty{\coadvisor}{
-        %     \signature{\coadvisorname (\coadvisoropt)}{\coadvisoraffiliation}
-        % }{\coorientadorinstituicao}
-        % }
+        \ifnotempty{\coadvisor}{tttt}%\signature{\coadvisorname (\coadvisoropt)}{\coadvisoraffiliation}}
     \end{onehalfspace}
 }
 {
@@ -665,7 +678,10 @@
     {\normalfont\normalsize\bfseries\centering} % format
     {}                                          % label
     {0pt}                                       % sep
-    {\MakeUppercase{#1}}                        % title name
+    {\MakeUppercase{#1}%
+        \stepcounter{numberlesschapter}%
+        \pdfbookmark[0]{#1}%
+        {nlchap:\thenumberlesschapter}}         % title name
 
 % SECTION
 \titlespacing{\section}{0pt}{2\doublespacing}{2\doublespacing}
