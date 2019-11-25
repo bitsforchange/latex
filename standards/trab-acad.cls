@@ -220,7 +220,7 @@
 \newcommand{\sourcename}{Source} % acho q já existe por padrão
 \newcommand{\notaname}{Note} % pra quê isso?
 
-% Seções sem título: (mas definições necessárias para os 'bookmarks')
+% Seções sem título: (mas as definições são necessárias para os 'bookmarks')
 % - Folha de rosto (verso: Catálogo)
 % - Folha de aprovação
 % - Dedicatória
@@ -651,16 +651,29 @@
 
 
 
-% LEGEND
-
-
+% LEGEND -- sugestão de formatação (abnTex2)
+\newcommand{\fonte}[2][\fontename]{%
+  \M@gettitle{#2}%
+  \memlegendinfo{#2}%
+  \par
+  \begingroup
+     \@parboxrestore
+     \if@minipage
+       \@setminipage
+     \fi
+     \ABNTEXfontereduzida
+     %\configureseparator
+     \captiondelim{\ABNTEXcaptionfontedelim}
+     \@makecaption{\ABNTEXfontereduzida #1}{\ignorespaces\ABNTEXfontereduzida #2}\par
+  \endgroup}
 
 % SOURCE
 
 
 
 % REDESIGN SECTIONING COMMANDS -- customizable fields
-\setcounter{secnumdepth}{3} % until subsubsection
+\setcounter{tocdepth}{5}    % until paragraph
+\setcounter{secnumdepth}{5} % until paragraph
 
 % CHAPTER
 \titlespacing{\chapter}{0pt}{0pt}{2\doublespacing}
@@ -731,6 +744,24 @@
 
 \titleformat
     {name=\subsubsection,numberless}% title command
+    [hang]                          % shape
+    {\normalfont\normalsize\itshape}% format
+    {}                              % label
+    {0pt}                           % sep
+    {#1}                            % title name
+
+% PARAGRAPH = SUBSUBSUBSECTION          % a definir formatação-------------------
+\titlespacing{\paragraph}{0pt}{2\doublespacing}{2\doublespacing}
+\titleformat
+    {\paragraph}                    % title command
+    [hang]                          % shape
+    {\normalfont\normalsize\itshape}% format
+    {\theparagraph\space}           % label
+    {0pt}                           % sep
+    {#1}                            % title name
+
+\titleformat
+    {name=\paragraph,numberless}    % title command
     [hang]                          % shape
     {\normalfont\normalsize\itshape}% format
     {}                              % label
